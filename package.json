@@ -1,0 +1,7 @@
+{
+  "name": "mulint",
+  "version": "1.0.0",
+  "description": "Mule project linter",
+  "main": "index.js",
+  "private": true
+}
