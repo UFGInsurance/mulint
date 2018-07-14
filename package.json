@@ -1,7 +1,10 @@
 {
   "name": "mulint",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "Mule project linter",
-  "main": "index.js",
-  "private": true
+  "main": "mulint.js",
+  "private": true,
+  "dependencies": {
+    "commander": "^2.16.0"
+  }
 }
