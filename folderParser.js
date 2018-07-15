@@ -1,27 +1,26 @@
 const fs = require("fs");
 const path = require("path");
 const glob = require("glob");
+const error = require("./error");
 
 const folderParser = apiBasePath => {
   if (!fs.existsSync(apiBasePath)) {
-    console.error(`apiBasePath "${apiBasePath}" not found`);
-    process.exit(1);
+    error.fatal(`apiBasePath "${apiBasePath}" not found`);
   }
 
   const apiName = path.basename(apiBasePath);
   const projectFolder = path.join(apiBasePath, "impl", apiName);
   const pomFile = path.join(projectFolder, "pom.xml");
   const appFolder = path.join(projectFolder, "src", "main", "app");
-  const apiFiles = glob.sync(path.join(appFolder, "*-api.xml"));
+  const apiPattern = "*-api.xml";
+  const apiFiles = glob.sync(path.join(appFolder, apiPattern));
 
   if (!fs.existsSync(pomFile)) {
-    console.error(`POM file "${pomFile}" not found`);
-    process.exit(1);
+    error.fatal(`POM file "${pomFile}" not found`);
   }
 
   if (apiFiles.length === 0) {
-    console.error("No *-api.xml files found");
-    process.exit(1);
+    error.fatal(`No ${apiPattern} files found`);
   }
 
   return {
