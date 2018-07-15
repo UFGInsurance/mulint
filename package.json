@@ -4,6 +4,8 @@
   "description": "Mule project linter",
   "main": "mulint.js",
   "private": true,
+  "preferGlobal": true,
+  "bin": "./mulint.js",
   "dependencies": {
     "commander": "^2.16.0"
   },
