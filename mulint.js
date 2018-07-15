@@ -2,6 +2,8 @@
 
 const program = require("commander");
 
+const folderParser = require("./folderParser");
+
 program
   .version("0.0.1")
   .description("Mule project linter")
@@ -15,6 +17,7 @@ program
     console.log("");
   })
   .action(apiBasePath => {
-    console.log(apiBasePath);
+    let parsed = folderParser(apiBasePath);
+    console.log(parsed);
   })
   .parse(process.argv);
