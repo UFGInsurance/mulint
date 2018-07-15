@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 
 const program = require("commander");
-
 const folderParser = require("./folderParser");
+const validateApiFiles = require("./validateApiFiles");
 
 program
   .version("0.0.1")
@@ -17,7 +17,8 @@ program
     console.log("");
   })
   .action(apiBasePath => {
-    let parsed = folderParser(apiBasePath);
-    console.log(parsed);
+    let folderInfo = folderParser(apiBasePath);
+    console.log(folderInfo); // debug
+    validateApiFiles(folderInfo);
   })
   .parse(process.argv);
