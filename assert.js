@@ -6,7 +6,14 @@ const equals = (expected, actual, context) => {
   }
 };
 
+const matches = (regex, actual, context) => {
+  if (!regex.test(actual)) {
+    failures.push(`${context}: expected matching ${regex} but was ${actual}`);
+  }
+};
+
 module.exports = {
   failures,
-  equals
+  equals,
+  matches
 };

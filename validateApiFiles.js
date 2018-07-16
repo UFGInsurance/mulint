@@ -5,6 +5,7 @@ const error = require("./error");
 const assert = require("./assert");
 
 const expectedListenerConfig = "standardHTTPS";
+const expectedListenerPathRegEx = /^\/(?:console|api)\/.+\/v1\/\*$/;
 
 const validateApiFiles = folderInfo => {
   folderInfo.apiFiles.forEach(apiFile => {
@@ -27,6 +28,12 @@ const validateApiFiles = folderInfo => {
             expectedListenerConfig,
             listenerAttributes["config-ref"],
             `${apiFileName} http:listener config`
+          );
+
+          assert.matches(
+            expectedListenerPathRegEx,
+            listenerAttributes["path"],
+            `${apiFileName} http:listener path`
           );
         }
       });
