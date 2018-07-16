@@ -28,7 +28,8 @@ const folderParser = apiBasePath => {
     apiName,
     projectFolder,
     pomFile,
-    apiFiles
+    apiFiles,
+    issues: []
   };
 };
 

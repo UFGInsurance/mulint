@@ -18,7 +18,7 @@ program
   })
   .action(apiBasePath => {
     let folderInfo = folderParser(apiBasePath);
-    console.log(folderInfo); // debug
     validateApiFiles(folderInfo);
+    folderInfo.issues.map(issue => console.error(issue));
   })
   .parse(process.argv);
