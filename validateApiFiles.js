@@ -2,6 +2,7 @@ const fs = require("fs");
 const path = require("path");
 const xml2js = require("xml2js");
 const error = require("./error");
+const assert = require("./assert");
 
 const expectedListenerConfig = "standardHTTPS";
 
@@ -22,13 +23,11 @@ const validateApiFiles = folderInfo => {
         if (listener) {
           let listenerAttributes = listener[0]["$"];
 
-          if (listenerAttributes["config-ref"] !== expectedListenerConfig) {
-            folderInfo.issues.push(
-              `${apiFileName} http:listener config: expected ${expectedListenerConfig} but was ${
-                listenerAttributes["config-ref"]
-              }`
-            );
-          }
+          assert.equals(
+            expectedListenerConfig,
+            listenerAttributes["config-ref"],
+            `${apiFileName} http:listener config`
+          );
         }
       });
     });
