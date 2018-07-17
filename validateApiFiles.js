@@ -36,6 +36,21 @@ const validateApiFiles = folderInfo => {
             `${apiFileName} http:listener path`
           );
         }
+
+        let exceptionStrategy = flow["exception-strategy"];
+
+        assert.isTrue(
+          exceptionStrategy,
+          `${apiFileName}: Missing exception strategy`
+        );
+
+        if (exceptionStrategy) {
+          assert.equals(
+            "Reference Exception Strategy",
+            exceptionStrategy[0]["$"]["doc:name"],
+            `${apiFileName} exception-strategy`
+          );
+        }
       });
     });
   });
