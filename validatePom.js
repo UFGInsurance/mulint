@@ -15,7 +15,9 @@ const validatePom = folderInfo => {
       error.fatal(err);
     }
 
-    let isOnPrem = result.project.properties[0]["deployment.type"][0] === "arm";
+    let properties = result.project.properties[0];
+
+    let isOnPrem = properties["deployment.type"][0] === "arm";
 
     if (isOnPrem) {
       let dependencies = result.project.dependencies[0].dependency;
@@ -36,6 +38,8 @@ const validatePom = folderInfo => {
         );
       }
     }
+
+    assert.isTrue(!properties.type, "POM: <type> not removed");
   });
 };
 
