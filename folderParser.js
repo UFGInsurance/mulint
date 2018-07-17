@@ -12,11 +12,16 @@ const folderParser = apiBasePath => {
   const projectFolder = path.join(apiBasePath, "impl", apiName);
   const pomFile = path.join(projectFolder, "pom.xml");
   const appFolder = path.join(projectFolder, "src", "main", "app");
+  const globalFile = path.join(appFolder, "global.xml");
   const apiPattern = "*-api.xml";
   const apiFiles = glob.sync(path.join(appFolder, apiPattern));
 
   if (!fs.existsSync(pomFile)) {
     error.fatal(`POM file "${pomFile}" not found`);
+  }
+
+  if (!fs.existsSync(globalFile)) {
+    error.fatal(`Global file "${globalFile}" not found`);
   }
 
   if (apiFiles.length === 0) {
@@ -28,6 +33,7 @@ const folderParser = apiBasePath => {
     apiName,
     projectFolder,
     pomFile,
+    globalFile,
     apiFiles
   };
 };

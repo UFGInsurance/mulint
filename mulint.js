@@ -4,6 +4,7 @@ const program = require("commander");
 const folderParser = require("./folderParser");
 const validateApiFiles = require("./validateApiFiles");
 const validatePom = require("./validatePom");
+const validateGlobal = require("./validateGlobal");
 const assert = require("./assert");
 
 program
@@ -22,6 +23,7 @@ program
     let folderInfo = folderParser(apiBasePath);
     validateApiFiles(folderInfo);
     validatePom(folderInfo);
+    validateGlobal(folderInfo);
     assert.failures.map(failure => console.error(failure));
   })
   .parse(process.argv);
