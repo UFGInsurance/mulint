@@ -12,8 +12,15 @@ const matches = (regex, actual, context) => {
   }
 };
 
+const isTrue = (expression, message) => {
+  if (!expression) {
+    failures.push(message);
+  }
+};
+
 module.exports = {
   failures,
   equals,
-  matches
+  matches,
+  isTrue
 };

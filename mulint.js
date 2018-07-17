@@ -3,6 +3,7 @@
 const program = require("commander");
 const folderParser = require("./folderParser");
 const validateApiFiles = require("./validateApiFiles");
+const validatePom = require("./validatePom");
 const assert = require("./assert");
 
 program
@@ -20,6 +21,7 @@ program
   .action(apiBasePath => {
     let folderInfo = folderParser(apiBasePath);
     validateApiFiles(folderInfo);
+    validatePom(folderInfo);
     assert.failures.map(failure => console.error(failure));
   })
   .parse(process.argv);
