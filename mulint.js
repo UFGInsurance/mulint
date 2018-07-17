@@ -5,6 +5,7 @@ const folderParser = require("./folderParser");
 const validateApiFiles = require("./validateApiFiles");
 const validatePom = require("./validatePom");
 const validateGlobal = require("./validateGlobal");
+const validateGitignore = require("./validateGitignore");
 const assert = require("./assert");
 
 program
@@ -24,6 +25,7 @@ program
     validateApiFiles(folderInfo);
     validatePom(folderInfo);
     validateGlobal(folderInfo);
+    validateGitignore(folderInfo);
     assert.failures.map(failure => console.error(failure));
   })
   .parse(process.argv);

@@ -11,6 +11,7 @@ const folderParser = apiBasePath => {
   const apiName = path.basename(apiBasePath);
   const projectFolder = path.join(apiBasePath, "impl", apiName);
   const pomFile = path.join(projectFolder, "pom.xml");
+  const gitignoreFile = path.join(projectFolder, ".gitignore");
   const appFolder = path.join(projectFolder, "src", "main", "app");
   const globalFile = path.join(appFolder, "global.xml");
   const apiPattern = "*-api.xml";
@@ -18,6 +19,10 @@ const folderParser = apiBasePath => {
 
   if (!fs.existsSync(pomFile)) {
     error.fatal(`POM file "${pomFile}" not found`);
+  }
+
+  if (!fs.existsSync(gitignoreFile)) {
+    error.fatal(`.gitignore file "${gitignoreFile}" not found`);
   }
 
   if (!fs.existsSync(globalFile)) {
@@ -33,6 +38,7 @@ const folderParser = apiBasePath => {
     apiName,
     projectFolder,
     pomFile,
+    gitignoreFile,
     globalFile,
     apiFiles
   };
