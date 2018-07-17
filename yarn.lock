@@ -132,6 +132,12 @@ cli-width@^2.0.0:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/cli-width/-/cli-width-2.2.0.tgz#ff19ede8a9a5e579324147b0c11f0fbcbabed639"
 
+coffee-script@~1.8.0:
+  version "1.8.0"
+  resolved "https://registry.yarnpkg.com/coffee-script/-/coffee-script-1.8.0.tgz#9c9f1d2b4a52a000ded15b659791703648263c1d"
+  dependencies:
+    mkdirp "~0.3.5"
+
 color-convert@^1.9.0:
   version "1.9.2"
   resolved "https://registry.yarnpkg.com/color-convert/-/color-convert-1.9.2.tgz#49881b8fba67df12a96bdf3f56c0aab9e7913147"
@@ -188,6 +194,10 @@ del@^2.0.2:
     pify "^2.0.0"
     pinkie-promise "^2.0.0"
     rimraf "^2.2.8"
+
+dive@~0.3.0:
+  version "0.3.1"
+  resolved "https://registry.yarnpkg.com/dive/-/dive-0.3.1.tgz#87022028120067c63cafbf06a4cc0556e7ad2dcf"
 
 doctrine@^2.1.0:
   version "2.1.0"
@@ -558,6 +568,10 @@ mkdirp@^0.5.1:
   dependencies:
     minimist "0.0.8"
 
+mkdirp@~0.3.5:
+  version "0.3.5"
+  resolved "https://registry.yarnpkg.com/mkdirp/-/mkdirp-0.3.5.tgz#de3e5f8961c88c787ee1368df849ac4413eca8d7"
+
 ms@2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/ms/-/ms-2.0.0.tgz#5608aeadfc00be6c2901df5f9861788de0d597c8"
@@ -650,6 +664,13 @@ progress@^2.0.0:
 punycode@^2.1.0:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/punycode/-/punycode-2.1.1.tgz#b58b010ac40c22c5657616c8d2c2c02c7bf479ec"
+
+recursive-search@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/recursive-search/-/recursive-search-1.0.1.tgz#f111b8ee5267f621b0c895252e1a6146e2fead10"
+  dependencies:
+    coffee-script "~1.8.0"
+    dive "~0.3.0"
 
 regexp.prototype.flags@^1.2.0:
   version "1.2.0"

@@ -1,6 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 const glob = require("glob");
+const search = require("recursive-search");
 const error = require("./error");
 
 const folderParser = apiBasePath => {
@@ -23,6 +24,13 @@ const folderParser = apiBasePath => {
 
   if (!fs.existsSync(gitignoreFile)) {
     error.fatal(`.gitignore file "${gitignoreFile}" not found`);
+  }
+
+  if (
+    search.recursiveSearchSync(".gitignore", projectFolder, { all: true })
+      .length > 1
+  ) {
+    error.fatal("Multiple .gitignore files found");
   }
 
   if (!fs.existsSync(globalFile)) {
