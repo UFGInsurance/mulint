@@ -17,13 +17,19 @@ const validateGlobal = folderInfo => {
     let requestConfig = result.mule["http:request-config"];
 
     if (requestConfig) {
-      let tlsContext = requestConfig[0]["$"]["tlsContext-ref"];
+      let requestConfigAttributes = requestConfig[0]["$"];
 
-      assert.equals(
-        expectedTlsContext,
-        tlsContext,
-        "Global http:request-config tlsContext"
-      );
+      let protocol = requestConfigAttributes.protocol;
+
+      if (protocol === "HTTPS") {
+        let tlsContext = requestConfigAttributes["tlsContext-ref"];
+
+        assert.equals(
+          expectedTlsContext,
+          tlsContext,
+          "Global http:request-config tlsContext"
+        );
+      }
     }
   });
 };
