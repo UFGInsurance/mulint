@@ -15,21 +15,26 @@ const validatePom = folderInfo => {
       error.fatal(err);
     }
 
-    let dependencies = result.project.dependencies[0].dependency;
+    let isOnPrem = result.project.properties[0]["deployment.type"][0] === "arm";
 
-    let domainProject = dependencies.find(
-      dependency =>
-        dependency.artifactId && dependency.artifactId[0] === domainProjectName
-    );
+    if (isOnPrem) {
+      let dependencies = result.project.dependencies[0].dependency;
 
-    assert.isTrue(domainProject, "No domain project");
-
-    if (domainProject) {
-      assert.equals(
-        expectedDomainProjectVersion,
-        String(domainProject.version),
-        "Domain project version"
+      let domainProject = dependencies.find(
+        dependency =>
+          dependency.artifactId &&
+          dependency.artifactId[0] === domainProjectName
       );
+
+      assert.isTrue(domainProject, "No domain project (deploying on-prem)");
+
+      if (domainProject) {
+        assert.equals(
+          expectedDomainProjectVersion,
+          String(domainProject.version),
+          "Domain project version"
+        );
+      }
     }
   });
 };
