@@ -62,7 +62,20 @@ const validateProperties = folderInfo => {
     `${serverContext} api.manager.flowref`
   );
 
-  // TODO: Check that other properties have matching values and check POM
+  // TODO: Check POM
+  localProperties.forEach((value, key) => {
+    assert.isTrue(
+      serverProperties.has(key),
+      `${serverContext}: ${key} from ${localContext} not found`
+    );
+  });
+
+  serverProperties.forEach((value, key) => {
+    assert.isTrue(
+      localProperties.has(key),
+      `${localContext}: ${key} from ${serverContext} not found`
+    );
+  });
 };
 
 module.exports = validateProperties;
