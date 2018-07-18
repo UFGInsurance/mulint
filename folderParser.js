@@ -17,6 +17,15 @@ const folderParser = apiBasePath => {
   const globalFile = path.join(appFolder, "global.xml");
   const apiPattern = "*-api.xml";
   const apiFiles = glob.sync(path.join(appFolder, apiPattern));
+  const resourcesFolder = path.join(projectFolder, "src", "main", "resources");
+  const localPropertiesFile = path.join(
+    resourcesFolder,
+    "api.local.properties"
+  );
+  const serverPropertiesFile = path.join(
+    resourcesFolder,
+    "api.server.properties"
+  );
 
   if (!fs.existsSync(pomFile)) {
     error.fatal(`POM file "${pomFile}" not found`);
@@ -41,14 +50,26 @@ const folderParser = apiBasePath => {
     error.fatal(`No ${apiPattern} files found`);
   }
 
+  if (!fs.existsSync(localPropertiesFile)) {
+    error.fatal(`Local properties file "${localPropertiesFile}" not found`);
+  }
+
+  if (!fs.existsSync(serverPropertiesFile)) {
+    error.fatal(`Server properties file "${serverPropertiesFile}" not found`);
+  }
+
   return {
     apiBasePath,
     apiName,
     projectFolder,
     pomFile,
     gitignoreFile,
+    appFolder,
     globalFile,
-    apiFiles
+    apiFiles,
+    resourcesFolder,
+    localPropertiesFile,
+    serverPropertiesFile
   };
 };
 
