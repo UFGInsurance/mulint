@@ -29,7 +29,7 @@ program
     validatePom(pomInfo);
     validateGlobal(folderInfo);
     validateGitignore(folderInfo);
-    validateProperties(folderInfo);
+    validateProperties(folderInfo, pomInfo);
     assert.failures.map(failure => console.error(failure));
   })
   .parse(process.argv);

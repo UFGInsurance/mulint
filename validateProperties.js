@@ -20,7 +20,7 @@ const loadProperties = fileName =>
       return acc;
     }, new Map());
 
-const validateProperties = folderInfo => {
+const validateProperties = (folderInfo, pomInfo) => {
   let localProperties = loadProperties(folderInfo.localPropertiesFile);
   let serverProperties = loadProperties(folderInfo.serverPropertiesFile);
   let localContext = path.basename(folderInfo.localPropertiesFile);
@@ -62,7 +62,6 @@ const validateProperties = folderInfo => {
     `${serverContext} api.manager.flowref`
   );
 
-  // TODO: Check POM
   localProperties.forEach((value, key) => {
     assert.isTrue(
       serverProperties.has(key),
@@ -75,6 +74,14 @@ const validateProperties = folderInfo => {
       localProperties.has(key),
       `${localContext}: ${key} from ${serverContext} not found`
     );
+  });
+
+  localProperties.forEach((value, key) => {
+    assert.isTrue(
+      pomInfo.properties.has(key),
+      `POM: ${key} property from ${localContext} not found`
+    );
+    // TODO: Need to check POM property values?
   });
 };
 
