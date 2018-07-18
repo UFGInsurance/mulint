@@ -2,6 +2,7 @@
 
 const program = require("commander");
 const folderParser = require("./folderParser");
+const pomParser = require("./pomParser");
 const validateApiFiles = require("./validateApiFiles");
 const validatePom = require("./validatePom");
 const validateGlobal = require("./validateGlobal");
@@ -23,11 +24,12 @@ program
   })
   .action(apiBasePath => {
     let folderInfo = folderParser(apiBasePath);
+    let pomInfo = pomParser(folderInfo.pomFile);
     validateApiFiles(folderInfo);
-    validatePom(folderInfo);
+    validatePom(pomInfo);
     validateGlobal(folderInfo);
     validateGitignore(folderInfo);
-    validateProperties(folderInfo);
+    validateProperties(folderInfo, pomInfo);
     assert.failures.map(failure => console.error(failure));
   })
   .parse(process.argv);

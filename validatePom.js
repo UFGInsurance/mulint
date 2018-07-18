@@ -1,46 +1,31 @@
-const fs = require("fs");
-const xml2js = require("xml2js");
-const error = require("./error");
 const assert = require("./assert");
 
 const domainProjectName = "api-gateway";
 const expectedDomainProjectVersion = "1.0.1";
 
-const validatePom = folderInfo => {
-  let contents = fs.readFileSync(folderInfo.pomFile);
-  let parser = new xml2js.Parser();
+const validatePom = pomInfo => {
+  let isOnPrem = pomInfo.properties.get("deployment.type") === "arm";
 
-  parser.parseString(contents, (err, result) => {
-    if (err) {
-      error.fatal(err);
-    }
+  if (isOnPrem) {
+    let dependencies = pomInfo.xml.project.dependencies[0].dependency;
 
-    let properties = result.project.properties[0];
+    let domainProject = dependencies.find(
+      dependency =>
+        dependency.artifactId && dependency.artifactId[0] === domainProjectName
+    );
 
-    let isOnPrem = properties["deployment.type"][0] === "arm";
+    assert.isTrue(domainProject, "No domain project (deploying on-prem)");
 
-    if (isOnPrem) {
-      let dependencies = result.project.dependencies[0].dependency;
-
-      let domainProject = dependencies.find(
-        dependency =>
-          dependency.artifactId &&
-          dependency.artifactId[0] === domainProjectName
+    if (domainProject) {
+      assert.equals(
+        expectedDomainProjectVersion,
+        String(domainProject.version),
+        "Domain project version"
       );
-
-      assert.isTrue(domainProject, "No domain project (deploying on-prem)");
-
-      if (domainProject) {
-        assert.equals(
-          expectedDomainProjectVersion,
-          String(domainProject.version),
-          "Domain project version"
-        );
-      }
     }
+  }
 
-    assert.isTrue(!properties.type, "POM: <type> not removed");
-  });
+  assert.isTrue(!pomInfo.properties.has("type"), "POM: <type> not removed");
 };
 
 module.exports = validatePom;
