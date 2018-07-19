@@ -26,6 +26,7 @@ const folderParser = apiBasePath => {
     resourcesFolder,
     "api.server.properties"
   );
+  const log4jFile = path.join(resourcesFolder, "log4j2.xml");
 
   if (!fs.existsSync(projectFolder)) {
     error.fatal(`Project folder "${projectFolder}" not found`);
@@ -73,6 +74,10 @@ const folderParser = apiBasePath => {
     error.fatal(`Server properties file "${serverPropertiesFile}" not found`);
   }
 
+  if (!fs.existsSync(log4jFile)) {
+    error.fatal(`Log4j file "${log4jFile}" not found`);
+  }
+
   return {
     apiBasePath,
     apiName,
@@ -84,7 +89,8 @@ const folderParser = apiBasePath => {
     apiFiles,
     resourcesFolder,
     localPropertiesFile,
-    serverPropertiesFile
+    serverPropertiesFile,
+    log4jFile
   };
 };
 

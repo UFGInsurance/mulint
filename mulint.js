@@ -8,6 +8,7 @@ const validatePom = require("./validatePom");
 const validateGlobal = require("./validateGlobal");
 const validateGitignore = require("./validateGitignore");
 const validateProperties = require("./validateProperties");
+const validateLog4j = require("./validateLog4j");
 const assert = require("./assert");
 
 program
@@ -32,6 +33,7 @@ program
     validateGlobal(folderInfo);
     validateGitignore(folderInfo);
     validateProperties(folderInfo, pomInfo);
+    validateLog4j(folderInfo);
     assert.failures.map(failure => console.error(failure));
   })
   .parse(process.argv);
