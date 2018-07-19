@@ -18,3 +18,5 @@ Cross-platform; written in Node.js (JavaScript).
 This is a command-line tool.
 
 `mulint --help` provides usage information.
+
+Do not include a trailing backslash in the path argument. There is a [bug](https://github.com/nodejs/node/issues/21854) in Node.

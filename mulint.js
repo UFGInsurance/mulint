@@ -21,6 +21,8 @@ program
     console.log("");
     console.log(`    mulint "${path}"`);
     console.log("");
+    console.log("  (Do not include a trailing backslash in the path argument)");
+    console.log("");
   })
   .action(apiBasePath => {
     let folderInfo = folderParser(apiBasePath);
