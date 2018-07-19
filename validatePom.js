@@ -3,6 +3,7 @@ const assert = require("./assert");
 const domainProjectName = "api-gateway";
 const expectedDomainProjectVersion = "1.0.1";
 const expectedGroupId = "com.unitedfiregroup";
+const expectedVersion = "1.0.0";
 
 const validatePom = (folderInfo, pomInfo) => {
   let isOnPrem = pomInfo.properties.get("deployment.type") === "arm";
@@ -35,6 +36,8 @@ const validatePom = (folderInfo, pomInfo) => {
     pomInfo.xml.project.artifactId[0],
     "POM artifactId"
   );
+
+  assert.equals(expectedVersion, pomInfo.xml.project.version[0], "POM version");
 };
 
 module.exports = validatePom;
