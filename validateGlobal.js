@@ -4,6 +4,7 @@ const error = require("./error");
 const assert = require("./assert");
 
 const expectedTlsContext = "clientTlsContext";
+const propertyPlaceholderRegEx = /^\${.+}$/;
 
 const validateGlobal = folderInfo => {
   let contents = fs.readFileSync(folderInfo.globalFile);
@@ -31,6 +32,18 @@ const validateGlobal = folderInfo => {
             `Global ${requestConfigAttributes.name} tlsContext`
           );
         }
+
+        assert.matches(
+          propertyPlaceholderRegEx,
+          requestConfigAttributes.host,
+          `Global ${requestConfigAttributes.name} host`
+        );
+
+        assert.matches(
+          propertyPlaceholderRegEx,
+          requestConfigAttributes.port,
+          `Global ${requestConfigAttributes.name} port`
+        );
       });
     }
   });
