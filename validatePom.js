@@ -4,7 +4,7 @@ const domainProjectName = "api-gateway";
 const expectedDomainProjectVersion = "1.0.1";
 const expectedGroupId = "com.unitedfiregroup";
 
-const validatePom = pomInfo => {
+const validatePom = (folderInfo, pomInfo) => {
   let isOnPrem = pomInfo.properties.get("deployment.type") === "arm";
 
   if (isOnPrem) {
@@ -29,6 +29,12 @@ const validatePom = pomInfo => {
   assert.isTrue(!pomInfo.properties.has("type"), "POM: <type> not removed");
 
   assert.equals(expectedGroupId, pomInfo.xml.project.groupId[0], "POM groupId");
+
+  assert.equals(
+    folderInfo.apiName,
+    pomInfo.xml.project.artifactId[0],
+    "POM artifactId"
+  );
 };
 
 module.exports = validatePom;

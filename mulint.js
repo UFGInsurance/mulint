@@ -28,7 +28,7 @@ program
     let folderInfo = folderParser(apiBasePath);
     let pomInfo = pomParser(folderInfo.pomFile);
     validateApiFiles(folderInfo);
-    validatePom(pomInfo);
+    validatePom(folderInfo, pomInfo);
     validateGlobal(folderInfo);
     validateGitignore(folderInfo);
     validateProperties(folderInfo, pomInfo);
