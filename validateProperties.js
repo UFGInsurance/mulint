@@ -74,6 +74,10 @@ const validateProperties = (folderInfo, pomInfo) => {
       localProperties.has(key),
       `${localContext}: ${key} from ${serverContext} not found`
     );
+
+    if (!key.startsWith("api.manager.")) {
+      assert.equals("${" + key + "}", value, `${serverContext} ${key}`);
+    }
   });
 
   localProperties.forEach((value, key) => {
