@@ -47,9 +47,12 @@ const folderParser = apiBasePath => {
     error.fatal(`.gitignore file "${gitignoreFile}" not found`);
   }
 
+  const gitIgnoredFoldersAndFilesRegEx = /src[/\\]main[/\\]api[/\\]\.repository[/\\]|src[/\\]main[/\\]api[/\\]\.gitignore/;
+
   if (
-    search.recursiveSearchSync(".gitignore", projectFolder, { all: true })
-      .length > 1
+    search
+      .recursiveSearchSync(".gitignore", projectFolder, { all: true })
+      .filter(file => !gitIgnoredFoldersAndFilesRegEx.test(file)).length > 1
   ) {
     error.fatal("Multiple .gitignore files found");
   }
