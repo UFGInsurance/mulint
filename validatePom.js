@@ -4,6 +4,7 @@ const domainProjectName = "api-gateway";
 const expectedDomainProjectVersion = "1.0.1";
 const expectedGroupId = "com.unitedfiregroup";
 const expectedVersion = "1.0.0";
+const expectedFlowRef = "${project.artifactId}-main";
 
 const validatePom = (folderInfo, pomInfo) => {
   let isOnPrem = pomInfo.properties.get("deployment.type") === "arm";
@@ -38,6 +39,12 @@ const validatePom = (folderInfo, pomInfo) => {
   );
 
   assert.equals(expectedVersion, pomInfo.xml.project.version[0], "POM version");
+
+  assert.equals(
+    expectedFlowRef,
+    pomInfo.properties.get("api.manager.flowref"),
+    "POM api.manager.flowref"
+  );
 };
 
 module.exports = validatePom;
