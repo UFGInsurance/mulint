@@ -14,22 +14,24 @@ const validateGlobal = folderInfo => {
       error.fatal(err);
     }
 
-    let requestConfig = result.mule["http:request-config"];
+    let requestConfigs = result.mule["http:request-config"];
 
-    if (requestConfig) {
-      let requestConfigAttributes = requestConfig[0]["$"];
+    if (requestConfigs) {
+      requestConfigs.forEach(requestConfig => {
+        let requestConfigAttributes = requestConfig["$"];
 
-      let protocol = requestConfigAttributes.protocol;
+        let protocol = requestConfigAttributes.protocol;
 
-      if (protocol === "HTTPS") {
-        let tlsContext = requestConfigAttributes["tlsContext-ref"];
+        if (protocol === "HTTPS") {
+          let tlsContext = requestConfigAttributes["tlsContext-ref"];
 
-        assert.equals(
-          expectedTlsContext,
-          tlsContext,
-          "Global http:request-config tlsContext"
-        );
-      }
+          assert.equals(
+            expectedTlsContext,
+            tlsContext,
+            `Global ${requestConfigAttributes.name} tlsContext`
+          );
+        }
+      });
     }
   });
 };
