@@ -27,6 +27,18 @@ const folderParser = apiBasePath => {
     "api.server.properties"
   );
 
+  if (!fs.existsSync(projectFolder)) {
+    error.fatal(`Project folder "${projectFolder}" not found`);
+  }
+
+  if (!fs.existsSync(appFolder)) {
+    error.fatal(`App folder "${appFolder}" not found`);
+  }
+
+  if (!fs.existsSync(resourcesFolder)) {
+    error.fatal(`Resources folder "${resourcesFolder}" not found`);
+  }
+
   if (!fs.existsSync(pomFile)) {
     error.fatal(`POM file "${pomFile}" not found`);
   }
