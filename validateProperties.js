@@ -81,11 +81,16 @@ const validateProperties = (folderInfo, pomInfo) => {
   });
 
   localProperties.forEach((value, key) => {
+    let foundInPom = pomInfo.properties.has(key);
+
     assert.isTrue(
-      pomInfo.properties.has(key),
+      foundInPom,
       `POM: ${key} property from ${localContext} not found`
     );
-    // TODO: Need to check POM property values?
+
+    if (foundInPom && key !== "api.manager.flowref") {
+      assert.equals(value, pomInfo.properties.get(key), `POM ${key}`);
+    }
   });
 };
 
