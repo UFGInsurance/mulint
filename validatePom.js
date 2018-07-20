@@ -8,25 +8,32 @@ const expectedFlowRef = "${project.artifactId}-main";
 
 const validatePom = (folderInfo, pomInfo) => {
   let isOnPrem = pomInfo.properties.get("deployment.type") === "arm";
+  let dependencies = pomInfo.xml.project.dependencies[0].dependency;
+
+  const findDependency = artifactId =>
+    dependencies.find(
+      dependency =>
+        dependency.artifactId && dependency.artifactId[0] === artifactId
+    );
 
   if (isOnPrem) {
-    let dependencies = pomInfo.xml.project.dependencies[0].dependency;
-
-    let domainProject = dependencies.find(
-      dependency =>
-        dependency.artifactId && dependency.artifactId[0] === domainProjectName
-    );
+    let domainProject = findDependency(domainProjectName);
 
     assert.isTrue(domainProject, "No domain project (deploying on-prem)");
 
     if (domainProject) {
       assert.equals(
         expectedDomainProjectVersion,
-        String(domainProject.version),
+        domainProject.version[0],
         "Domain project version"
       );
     }
   }
+
+  assert.isTrue(
+    findDependency("common-dataweave"),
+    "No common-dataweave project dependency"
+  );
 
   assert.isTrue(!pomInfo.properties.has("type"), "POM: <type> not removed");
 
