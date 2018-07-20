@@ -17,6 +17,7 @@ const folderParser = apiBasePath => {
   const globalFile = path.join(appFolder, "global.xml");
   const apiPattern = "*-api.xml";
   const apiFiles = glob.sync(path.join(appFolder, apiPattern));
+  const muleAppPropertiesFile = path.join(appFolder, "mule-app.properties");
   const resourcesFolder = path.join(projectFolder, "src", "main", "resources");
   const localPropertiesFile = path.join(
     resourcesFolder,
@@ -87,6 +88,7 @@ const folderParser = apiBasePath => {
     appFolder,
     globalFile,
     apiFiles,
+    muleAppPropertiesFile,
     resourcesFolder,
     localPropertiesFile,
     serverPropertiesFile,

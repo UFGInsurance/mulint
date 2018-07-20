@@ -26,6 +26,13 @@ const validateProperties = (folderInfo, pomInfo) => {
   let localContext = path.basename(folderInfo.localPropertiesFile);
   let serverContext = path.basename(folderInfo.serverPropertiesFile);
 
+  if (fs.existsSync(folderInfo.muleAppPropertiesFile)) {
+    assert.isTrue(
+      loadProperties(folderInfo.muleAppPropertiesFile).size === 0,
+      `${path.basename(folderInfo.muleAppPropertiesFile)} contains properties`
+    );
+  }
+
   assert.matches(
     new RegExp("^groupId:.+:assetId:" + folderInfo.apiName + "$"),
     localProperties.get("api.manager.name"),
