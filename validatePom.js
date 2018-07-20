@@ -5,6 +5,8 @@ const expectedDomainProjectVersion = "1.0.1";
 const expectedGroupId = "com.unitedfiregroup";
 const expectedVersion = "1.0.0";
 const expectedFlowRef = "${project.artifactId}-main";
+const mavenRepository =
+  "https://ufginsurance.jfrog.io/ufginsurance/libs-release-local";
 
 const validatePom = (folderInfo, pomInfo) => {
   let isOnPrem = pomInfo.properties.get("deployment.type") === "arm";
@@ -51,6 +53,14 @@ const validatePom = (folderInfo, pomInfo) => {
     expectedFlowRef,
     pomInfo.properties.get("api.manager.flowref"),
     "POM api.manager.flowref"
+  );
+
+  let distributionManagement = pomInfo.xml.project.distributionManagement;
+
+  assert.isTrue(
+    distributionManagement &&
+      distributionManagement[0].repository[0].url[0] === mavenRepository,
+    "POM: Maven repository (Artifactory) not configured"
   );
 };
 
