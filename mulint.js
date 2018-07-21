@@ -36,6 +36,6 @@ program
     validateGitignore(folderInfo);
     validateProperties(folderInfo, pomInfo);
     validateLog4j(folderInfo);
-    assert.failures.map(failure => console.error(failure));
+    assert.failures.map(failure => console.log(failure));
   })
   .parse(process.argv);
