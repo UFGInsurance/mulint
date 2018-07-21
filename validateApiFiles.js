@@ -60,6 +60,11 @@ const validateApiFiles = folderInfo => {
           );
         }
       });
+
+      assert.isTrue(
+        !result.mule["apikit:mapping-exception-strategy"],
+        `${apiFileName}: APIkit exception strategy not removed`
+      );
     });
   });
 };
