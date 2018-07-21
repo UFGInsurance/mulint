@@ -26,3 +26,6 @@ Do not include a trailing backslash in the path argument. There is a [bug](https
 If you encounter false positives or find other checks that could be automated,
 please open an [issue](https://github.com/UFGInsurance/mulint/issues).
 Include any information (API, branch, file, message, etc.) needed to replicate the issue.
+
+Also please open an issue if the tool behaves incorrectly under macOS, Linux,
+or Windows. Include the platform, version, flavor, etc. in addition to the above.
