@@ -6,6 +6,7 @@ const pomParser = require("./pomParser");
 const validateApiFiles = require("./validateApiFiles");
 const validatePom = require("./validatePom");
 const validateGlobal = require("./validateGlobal");
+const validateImplementation = require("./validateImplementation");
 const validateGitignore = require("./validateGitignore");
 const validateProperties = require("./validateProperties");
 const validateLog4j = require("./validateLog4j");
@@ -31,6 +32,7 @@ program
     validateApiFiles(folderInfo);
     validatePom(folderInfo, pomInfo);
     validateGlobal(folderInfo);
+    validateImplementation(folderInfo);
     validateGitignore(folderInfo);
     validateProperties(folderInfo, pomInfo);
     validateLog4j(folderInfo);

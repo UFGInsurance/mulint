@@ -15,6 +15,7 @@ const folderParser = apiBasePath => {
   const gitignoreFile = path.join(projectFolder, ".gitignore");
   const appFolder = path.join(projectFolder, "src", "main", "app");
   const globalFile = path.join(appFolder, "global.xml");
+  const implementationFile = path.join(appFolder, "implementation.xml");
   const apiPattern = "*-api.xml";
   const apiFiles = glob.sync(path.join(appFolder, apiPattern));
   const muleAppPropertiesFile = path.join(appFolder, "mule-app.properties");
@@ -63,6 +64,10 @@ const folderParser = apiBasePath => {
     error.fatal(`Global file "${globalFile}" not found`);
   }
 
+  if (!fs.existsSync(implementationFile)) {
+    error.fatal(`Implementation file "${implementationFile}" not found`);
+  }
+
   if (apiFiles.length === 0) {
     error.fatal(`No ${apiPattern} files found`);
   }
@@ -87,6 +92,7 @@ const folderParser = apiBasePath => {
     gitignoreFile,
     appFolder,
     globalFile,
+    implementationFile,
     apiFiles,
     muleAppPropertiesFile,
     resourcesFolder,
