@@ -99,6 +99,16 @@ const validateProperties = (folderInfo, pomInfo) => {
       assert.equals(value, pomInfo.properties.get(key), `POM ${key}`);
     }
   });
+
+  if (!pomInfo.isOnPrem) {
+    // CloudHub
+
+    assert.isTrue(
+      serverProperties.has("https.port"),
+      `${serverContext}: https.port property not found (deploying to CloudHub)`
+    );
+    // Note that we have already checked for property placeholders.
+  }
 };
 
 module.exports = validateProperties;
