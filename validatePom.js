@@ -9,7 +9,6 @@ const mavenRepository =
   "https://ufginsurance.jfrog.io/ufginsurance/libs-release-local";
 
 const validatePom = (folderInfo, pomInfo) => {
-  let isOnPrem = pomInfo.properties.get("deployment.type") === "arm";
   let dependencies = pomInfo.xml.project.dependencies[0].dependency;
 
   const findDependency = artifactId =>
@@ -20,7 +19,7 @@ const validatePom = (folderInfo, pomInfo) => {
 
   let domainProject = findDependency(domainProjectName);
 
-  if (isOnPrem) {
+  if (pomInfo.isOnPrem) {
     assert.isTrue(domainProject, "No domain project (deploying on-prem)");
 
     if (domainProject) {

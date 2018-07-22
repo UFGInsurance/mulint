@@ -23,8 +23,11 @@ const pomParser = pomFile => {
     }
   });
 
+  let isOnPrem = properties.get("deployment.type") === "arm";
+
   return {
     properties,
+    isOnPrem,
     xml
   };
 };
