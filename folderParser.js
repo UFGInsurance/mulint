@@ -28,6 +28,10 @@ const folderParser = apiBasePath => {
     resourcesFolder,
     "api.server.properties"
   );
+  const oldPropertiesFile = path.join(
+    resourcesFolder,
+    "api.Development.properties"
+  );
   const log4jFile = path.join(resourcesFolder, "log4j2.xml");
   const dataWeaveFiles = glob.sync(path.join(resourcesFolder, "dwl", "*.dwl"));
 
@@ -79,6 +83,10 @@ const folderParser = apiBasePath => {
 
   if (!fs.existsSync(serverPropertiesFile)) {
     error.fatal(`Server properties file "${serverPropertiesFile}" not found`);
+  }
+
+  if (fs.existsSync(oldPropertiesFile)) {
+    error.fatal(`Old properties file "${oldPropertiesFile}" found`);
   }
 
   if (!fs.existsSync(log4jFile)) {
