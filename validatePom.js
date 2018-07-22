@@ -18,9 +18,9 @@ const validatePom = (folderInfo, pomInfo) => {
         dependency.artifactId && dependency.artifactId[0] === artifactId
     );
 
-  if (isOnPrem) {
-    let domainProject = findDependency(domainProjectName);
+  let domainProject = findDependency(domainProjectName);
 
+  if (isOnPrem) {
     assert.isTrue(domainProject, "No domain project (deploying on-prem)");
 
     if (domainProject) {
@@ -30,6 +30,13 @@ const validatePom = (folderInfo, pomInfo) => {
         "Domain project version"
       );
     }
+  } else {
+    // CloudHub
+
+    assert.isTrue(
+      !domainProject,
+      "Domain project used (deploying to CloudHub)"
+    );
   }
 
   assert.isTrue(
