@@ -48,12 +48,6 @@ const validateApiFiles = folderInfo => {
           let exceptionStrategyAttributes = exceptionStrategy[0]["$"];
 
           assert.equals(
-            "Reference Exception Strategy",
-            exceptionStrategyAttributes["doc:name"],
-            `${apiFileName} exception-strategy name`
-          );
-
-          assert.equals(
             "ChoiceExceptionStrategy",
             exceptionStrategyAttributes.ref,
             `${apiFileName} exception-strategy ref`
