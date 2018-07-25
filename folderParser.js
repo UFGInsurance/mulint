@@ -4,6 +4,16 @@ const glob = require("glob");
 const search = require("recursive-search");
 const error = require("./error");
 
+const findImplementationFiles = appFolder => {
+  let usualFile = path.join(appFolder, "implementation.xml");
+
+  if (fs.existsSync(usualFile)) {
+    return [usualFile];
+  }
+
+  return glob.sync(path.join(appFolder, "muleflows", "*.xml"));
+};
+
 const folderParser = apiBasePath => {
   if (!fs.existsSync(apiBasePath)) {
     error.fatal(`apiBasePath "${apiBasePath}" not found`);
@@ -15,7 +25,7 @@ const folderParser = apiBasePath => {
   const gitignoreFile = path.join(projectFolder, ".gitignore");
   const appFolder = path.join(projectFolder, "src", "main", "app");
   const globalFile = path.join(appFolder, "global.xml");
-  const implementationFile = path.join(appFolder, "implementation.xml");
+  const implementationFiles = findImplementationFiles(appFolder);
   const apiPattern = "*-api.xml";
   const apiFiles = glob.sync(path.join(appFolder, apiPattern));
   const muleAppPropertiesFile = path.join(appFolder, "mule-app.properties");
@@ -69,8 +79,8 @@ const folderParser = apiBasePath => {
     error.fatal(`Global file "${globalFile}" not found`);
   }
 
-  if (!fs.existsSync(implementationFile)) {
-    error.fatal(`Implementation file "${implementationFile}" not found`);
+  if (implementationFiles.length === 0) {
+    error.fatal("No implementation files found");
   }
 
   if (apiFiles.length === 0) {
@@ -101,7 +111,7 @@ const folderParser = apiBasePath => {
     gitignoreFile,
     appFolder,
     globalFile,
-    implementationFile,
+    implementationFiles,
     apiFiles,
     muleAppPropertiesFile,
     resourcesFolder,
