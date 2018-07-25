@@ -13,7 +13,9 @@ const loadProperties = fileName =>
       cur = cur.trim();
 
       if (!cur.startsWith("#") && cur.includes("=")) {
-        let items = cur.split("=").map(x => x.trim());
+        // Only match the first equals sign.
+        // https://stackoverflow.com/questions/4607745/split-string-only-on-first-instance-of-specified-character
+        let items = cur.split(/=(.*)/).map(x => x.trim());
         acc.set(items[0], items[1]);
       }
 
