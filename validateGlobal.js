@@ -1,10 +1,10 @@
+const { propertyPlaceholderRegEx } = require("./constants");
 const fs = require("fs");
 const xml2js = require("xml2js");
 const error = require("./error");
 const assert = require("./assert");
 
 const expectedTlsContext = "clientTlsContext";
-const propertyPlaceholderRegEx = /^\${.+}$/;
 
 const validateGlobal = folderInfo => {
   let contents = fs.readFileSync(folderInfo.globalFile);
