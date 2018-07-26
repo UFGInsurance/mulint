@@ -18,9 +18,12 @@ const isTrue = (expression, message) => {
   }
 };
 
+const fail = message => failures.push(message);
+
 module.exports = {
   failures,
   equals,
   matches,
-  isTrue
+  isTrue,
+  fail
 };
