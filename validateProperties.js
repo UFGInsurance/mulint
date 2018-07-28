@@ -37,6 +37,16 @@ const validateProperties = (folderInfo, pomInfo) => {
     );
   }
 
+  assert.isTrue(
+    Array.from(localProperties.values()).every(x => !x.endsWith(" ")),
+    `${localContext}: trailing spaces found`
+  );
+
+  assert.isTrue(
+    Array.from(serverProperties.values()).every(x => !x.endsWith(" ")),
+    `${serverContext}: trailing spaces found`
+  );
+
   assert.matches(
     new RegExp("^groupId:.+:assetId:" + folderInfo.apiName + "$"),
     localProperties.get("api.manager.name"),
