@@ -10,13 +10,15 @@ const loadProperties = fileName =>
     .toString()
     .split(os.EOL)
     .reduce((acc, cur) => {
-      cur = cur.trim();
+      // Any space between the key and value is removed.
+      // Any trailing space is left as is.
+      cur = cur.trimLeft();
 
       if (!cur.startsWith("#") && cur.includes("=")) {
         // Only match the first equals sign.
         // https://stackoverflow.com/questions/4607745/split-string-only-on-first-instance-of-specified-character
-        let items = cur.split(/=(.*)/).map(x => x.trim());
-        acc.set(items[0], items[1]);
+        let items = cur.split(/=(.*)/);
+        acc.set(items[0].trim(), items[1].trimLeft());
       }
 
       return acc;
