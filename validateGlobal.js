@@ -15,6 +15,13 @@ const validateGlobal = folderInfo => {
       error.fatal(err);
     }
 
+    assert.isTrue(
+      result.mule["api-platform-gw:api"] &&
+        result.mule["api-platform-gw:api"][0]["$"]["doc:name"] ===
+          "API Autodiscovery",
+      "Global: API Autodiscovery not configured"
+    );
+
     let requestConfigs = result.mule["http:request-config"];
 
     if (requestConfigs) {
