@@ -24,10 +24,11 @@ program
     console.log("");
     console.log(`    mulint "${path}"`);
     console.log("");
-    console.log("  (Do not include a trailing backslash in the path argument)");
-    console.log("");
   })
   .action(apiBasePath => {
+    // Workaround for https://github.com/PowerShell/PowerShell/issues/7400
+    apiBasePath = apiBasePath.replace(/"$/, "");
+
     let folderInfo = folderParser(apiBasePath);
     let pomInfo = pomParser(folderInfo.pomFile);
     validateApiFiles(folderInfo);
