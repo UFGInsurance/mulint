@@ -4,7 +4,7 @@ const domainProjectName = "api-gateway";
 const expectedDomainProjectVersion = "1.0.1";
 const expectedGroupId = "com.unitedfiregroup";
 const expectedVersion = "1.0.0";
-const expectedFlowRef = "${project.artifactId}-main";
+const expectedFlowRef = "${project.artifactId}-main";  // may be inlined
 const mavenRepository =
   "https://ufginsurance.jfrog.io/ufginsurance/libs-release-local";
 
@@ -47,19 +47,26 @@ const validatePom = (folderInfo, pomInfo) => {
 
   assert.equals(expectedGroupId, pomInfo.xml.project.groupId[0], "POM groupId");
 
-  assert.equals(
-    folderInfo.apiName,
-    pomInfo.xml.project.artifactId[0],
-    "POM artifactId"
-  );
+  let projectArtifactId = pomInfo.xml.project.artifactId[0];
+
+  assert.equals(folderInfo.apiName, projectArtifactId, "POM artifactId");
 
   assert.equals(expectedVersion, pomInfo.xml.project.version[0], "POM version");
 
-  assert.equals(
-    expectedFlowRef,
-    pomInfo.properties.get("api.manager.flowref"),
-    "POM api.manager.flowref"
+  let apiManagerFlowref = pomInfo.properties.get("api.manager.flowref");
+  let alternateExpectedFlowRef = expectedFlowRef.replace(
+    "${project.artifactId}",
+    projectArtifactId
   );
+
+  if (
+    apiManagerFlowref !== expectedFlowRef &&
+    apiManagerFlowref !== alternateExpectedFlowRef
+  ) {
+    assert.fail(
+      `POM api.manager.flowref: expected "${expectedFlowRef}" or "${alternateExpectedFlowRef}" but was "${apiManagerFlowref}"`
+    );
+  }
 
   let distributionManagement = pomInfo.xml.project.distributionManagement;
 
