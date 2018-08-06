@@ -1,7 +1,11 @@
+const { propertyPlaceholderRegEx } = require("./constants");
 const fs = require("fs");
 const path = require("path");
 const os = require("os");
 const assert = require("./assert");
+
+// Negative lookahead - "password=" not followed by "replace" or "${"
+const sensitiveValueRegEx = /password=(?!replace|\${)/;
 
 // Loads a Java .properties file into a Map.
 const loadProperties = fileName =>
@@ -88,6 +92,15 @@ const validateProperties = (folderInfo, pomInfo) => {
       serverProperties.has(key),
       `${serverContext}: ${key} from ${localContext} not found`
     );
+
+    if (
+      (key.includes("password") &&
+        !value.includes("replace") &&
+        !propertyPlaceholderRegEx.test(value)) ||
+      sensitiveValueRegEx.test(value)
+    ) {
+      assert.fail(`${localContext}: ${key} may contain sensitive information`);
+    }
   });
 
   serverProperties.forEach((value, key) => {
