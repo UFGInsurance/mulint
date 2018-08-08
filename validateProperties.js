@@ -122,7 +122,12 @@ const validateProperties = (folderInfo, pomInfo) => {
       `POM: ${key} property from ${localContext} not found`
     );
 
-    if (foundInPom && key !== "api.manager.flowref") {
+    if (
+      foundInPom &&
+      key !== "api.manager.flowref" &&
+      !key.includes("database") &&
+      !key.includes("sql")
+    ) {
       assert.equals(value, pomInfo.properties.get(key), `POM ${key}`);
     }
   });
