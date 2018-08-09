@@ -8,12 +8,19 @@ Cross-platform; written in Node.js (JavaScript).
 
 ## Setup
 
+#### Prerequisites
+
+- [Node.js](https://nodejs.org/) 8.10 or later (**LTS**)
+    - _(nodejs-lts package for Chocolatey users)_
+- [Yarn](https://yarnpkg.com/)
+
+#### Install
+
 1.  Clone the project
 2.  CD to the project folder
 3.  `yarn`
 4.  `yarn link`
-
-On Linux or macOS, `chmod +x mulint.js` should replace step 4.
+    - On Linux or macOS, `chmod +x mulint.js` should replace this step.
 
 ## Use
 
