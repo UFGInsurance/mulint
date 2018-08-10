@@ -29,8 +29,10 @@ const validateGlobal = folderInfo => {
         let requestConfigAttributes = requestConfig["$"];
 
         let protocol = requestConfigAttributes.protocol;
+        let host = requestConfigAttributes["host"];
+        let usesMockService = host && host.includes("mock");
 
-        if (protocol === "HTTPS") {
+        if (protocol === "HTTPS" && !usesMockService) {
           let tlsContext = requestConfigAttributes["tlsContext-ref"];
 
           assert.equals(
