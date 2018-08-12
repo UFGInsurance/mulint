@@ -34,6 +34,12 @@ const validateTemplateIsCurrent = (xml, databaseRoute) => {
     muleSoftEnvColumn["$"].literal,
     "Log4 JDBC MULESOFT_ENV literal"
   );
+
+  assert.equals(
+    "MULESOFT_LOGS",
+    databaseRoute.JDBC[0]["$"].tableName,
+    "Log4 JDBC tableName"
+  );
 };
 
 const validateLog4j = folderInfo => {
