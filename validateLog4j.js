@@ -3,6 +3,17 @@ const xml2js = require("xml2js");
 const error = require("./error");
 const assert = require("./assert");
 
+// eslint-disable-next-line quotes
+const expectedRoutingScript = '"${mule.env}".equals("local") ? "local" : "DB";';
+
+const validateTemplateIsCurrent = xml => {
+  let routingScript = xml.Configuration.Appenders[0].Routing[0].Script[0][
+    "_"
+  ].trim();
+
+  assert.equals(expectedRoutingScript, routingScript, "Log4j Routing Script");
+};
+
 const validateLog4j = folderInfo => {
   let contents = fs.readFileSync(folderInfo.log4jFile);
   let parser = new xml2js.Parser();
@@ -40,6 +51,8 @@ const validateLog4j = folderInfo => {
       apiNameColumn["$"].literal,
       "Log4 JDBC API_NAME literal"
     );
+
+    validateTemplateIsCurrent(result);
   });
 };
 
