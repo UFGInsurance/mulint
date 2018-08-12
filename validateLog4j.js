@@ -17,6 +17,11 @@ const validateTemplateIsCurrent = (xml, databaseRoute) => {
     route => route["$"].key === "local"
   );
 
+  if (!localRoute) {
+    // very old template
+    error.fatal("Log4j local Route not found - check case of key");
+  }
+
   assert.equals("file", localRoute["$"].ref, "Log4j local Route");
 
   assert.equals(
