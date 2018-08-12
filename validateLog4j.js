@@ -6,7 +6,7 @@ const assert = require("./assert");
 // eslint-disable-next-line quotes
 const expectedRoutingScript = '"${mule.env}".equals("local") ? "local" : "DB";';
 
-const validateTemplateIsCurrent = xml => {
+const validateTemplateIsCurrent = (xml, databaseRoute) => {
   let routingScript = xml.Configuration.Appenders[0].Routing[0].Script[0][
     "_"
   ].trim();
@@ -23,6 +23,16 @@ const validateTemplateIsCurrent = xml => {
     "Routing",
     xml.Configuration.Loggers[0].AsyncRoot[0].AppenderRef[0]["$"].ref,
     "Log4j AppenderRef"
+  );
+
+  let muleSoftEnvColumn = databaseRoute.JDBC[0].Column.find(
+    column => column["$"].name === "MULESOFT_ENV"
+  );
+
+  assert.equals(
+    "'${mule.env}'",
+    muleSoftEnvColumn["$"].literal,
+    "Log4 JDBC MULESOFT_ENV literal"
   );
 };
 
@@ -64,7 +74,7 @@ const validateLog4j = folderInfo => {
       "Log4 JDBC API_NAME literal"
     );
 
-    validateTemplateIsCurrent(result);
+    validateTemplateIsCurrent(result, databaseRoute);
   });
 };
 
