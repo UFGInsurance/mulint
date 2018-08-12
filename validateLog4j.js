@@ -18,6 +18,12 @@ const validateTemplateIsCurrent = xml => {
   );
 
   assert.equals("file", localRoute["$"].ref, "Log4j local Route");
+
+  assert.equals(
+    "Routing",
+    xml.Configuration.Loggers[0].AsyncRoot[0].AppenderRef[0]["$"].ref,
+    "Log4j AppenderRef"
+  );
 };
 
 const validateLog4j = folderInfo => {
