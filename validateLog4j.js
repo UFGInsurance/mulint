@@ -12,6 +12,12 @@ const validateTemplateIsCurrent = xml => {
   ].trim();
 
   assert.equals(expectedRoutingScript, routingScript, "Log4j Routing Script");
+
+  let localRoute = xml.Configuration.Appenders[0].Routing[0].Routes[0].Route.find(
+    route => route["$"].key === "local"
+  );
+
+  assert.equals("file", localRoute["$"].ref, "Log4j local Route");
 };
 
 const validateLog4j = folderInfo => {
