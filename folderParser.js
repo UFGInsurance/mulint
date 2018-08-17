@@ -65,7 +65,7 @@ const folderParser = apiBasePath => {
     error.fatal(`.gitignore file "${gitignoreFile}" not found`);
   }
 
-  const gitIgnoredFoldersAndFilesRegEx = /src[/\\]main[/\\]api[/\\]\.repository[/\\]|src[/\\]main[/\\]api[/\\]\.gitignore/;
+  const gitIgnoredFoldersAndFilesRegEx = /src[/\\]main[/\\]api[/\\]\.repository[/\\]|src[/\\]main[/\\]api[/\\]\.gitignore|[/\\]target[/\\]/;
 
   if (
     search
