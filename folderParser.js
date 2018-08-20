@@ -6,12 +6,13 @@ const error = require("./error");
 
 const findImplementationFiles = appFolder => {
   let usualFile = path.join(appFolder, "implementation.xml");
+  let muleflows = glob.sync(path.join(appFolder, "muleflows", "*.xml"));
 
   if (fs.existsSync(usualFile)) {
-    return [usualFile];
+    muleflows.unshift(usualFile);
   }
 
-  return glob.sync(path.join(appFolder, "muleflows", "*.xml"));
+  return muleflows;
 };
 
 const folderParser = apiBasePath => {
