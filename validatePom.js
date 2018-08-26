@@ -1,4 +1,7 @@
-const { propertyPlaceholderRegEx } = require("./constants");
+const {
+  propertyPlaceholderRegEx,
+  cloudCIOnlyMavenProperties
+} = require("./constants");
 const assert = require("./assert");
 
 const domainProjectName = "api-gateway";
@@ -48,25 +51,17 @@ const validatePom = (folderInfo, pomInfo) => {
       let mavenProperties = muleMavenPlugin.configuration[0].properties;
 
       if (mavenProperties) {
-        let clientId = mavenProperties[0]["anypoint.platform.client_id"];
-        let clientSecret =
-          mavenProperties[0]["anypoint.platform.client_secret"];
+        cloudCIOnlyMavenProperties.forEach(ciOnlyProperty => {
+          let actualProperty = mavenProperties[0][ciOnlyProperty];
 
-        if (clientId) {
-          assert.matches(
-            propertyPlaceholderRegEx,
-            clientId[0],
-            "POM anypoint.platform.client_id"
-          );
-        }
-
-        if (clientSecret) {
-          assert.matches(
-            propertyPlaceholderRegEx,
-            clientSecret[0],
-            "POM anypoint.platform.client_secret"
-          );
-        }
+          if (actualProperty) {
+            assert.matches(
+              propertyPlaceholderRegEx,
+              actualProperty[0],
+              `POM ${ciOnlyProperty}`
+            );
+          }
+        });
       }
     }
   }
