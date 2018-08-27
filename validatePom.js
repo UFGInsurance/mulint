@@ -1,21 +1,29 @@
+const {
+  propertyPlaceholderRegEx,
+  cloudCIOnlyMavenProperties
+} = require("./constants");
 const assert = require("./assert");
 
 const domainProjectName = "api-gateway";
 const expectedDomainProjectVersion = "1.0.1";
 const expectedGroupId = "com.unitedfiregroup";
 const expectedVersion = "1.0.0";
-const expectedFlowRef = "${project.artifactId}-main";  // may be inlined
+const expectedFlowRef = "${project.artifactId}-main"; // may be inlined
 const mavenRepository =
   "https://ufginsurance.jfrog.io/ufginsurance/libs-release-local";
 
 const validatePom = (folderInfo, pomInfo) => {
   let dependencies = pomInfo.xml.project.dependencies[0].dependency;
+  let plugins = pomInfo.xml.project.build[0].plugins[0].plugin;
 
-  const findDependency = artifactId =>
-    dependencies.find(
-      dependency =>
-        dependency.artifactId && dependency.artifactId[0] === artifactId
+  // Curryable function
+  const findElementByArtifactId = elements => artifactId =>
+    elements.find(
+      element => element.artifactId && element.artifactId[0] === artifactId
     );
+
+  let findDependency = findElementByArtifactId(dependencies);
+  let findPlugin = findElementByArtifactId(plugins);
 
   let domainProject = findDependency(domainProjectName);
 
@@ -36,6 +44,34 @@ const validatePom = (folderInfo, pomInfo) => {
       !domainProject,
       "Domain project used (deploying to CloudHub)"
     );
+
+    let muleMavenPlugin = findPlugin("mule-maven-plugin");
+
+    if (muleMavenPlugin && muleMavenPlugin.configuration) {
+      let mavenProperties = muleMavenPlugin.configuration[0].properties;
+
+      if (mavenProperties) {
+        cloudCIOnlyMavenProperties.forEach(ciOnlyProperty => {
+          let actualProperty = mavenProperties[0][ciOnlyProperty];
+
+          if (actualProperty) {
+            assert.matches(
+              propertyPlaceholderRegEx,
+              actualProperty[0],
+              `POM ${ciOnlyProperty}`
+            );
+          }
+        });
+      }
+
+      // Check properties section too
+      cloudCIOnlyMavenProperties.forEach(ciOnlyProperty => {
+        assert.isTrue(
+          !pomInfo.properties.has(ciOnlyProperty),
+          `POM: ${ciOnlyProperty} property found (should only be plugin placeholder)`
+        );
+      });
+    }
   }
 
   assert.isTrue(

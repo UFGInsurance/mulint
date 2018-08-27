@@ -1,4 +1,7 @@
-const { propertyPlaceholderRegEx } = require("./constants");
+const {
+  propertyPlaceholderRegEx,
+  cloudCIOnlyMavenProperties
+} = require("./constants");
 const fs = require("fs");
 const path = require("path");
 const os = require("os");
@@ -140,6 +143,18 @@ const validateProperties = (folderInfo, pomInfo) => {
       `${serverContext}: https.port property not found (deploying to CloudHub)`
     );
     // Note that we have already checked for property placeholders.
+
+    cloudCIOnlyMavenProperties.forEach(ciOnlyProperty => {
+      assert.isTrue(
+        !localProperties.has(ciOnlyProperty),
+        `${localContext}: ${ciOnlyProperty} property found (should not be stored)`
+      );
+
+      assert.isTrue(
+        !serverProperties.has(ciOnlyProperty),
+        `${serverContext}: ${ciOnlyProperty} property found (should not be stored)`
+      );
+    });
   }
 };
 
