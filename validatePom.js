@@ -63,6 +63,14 @@ const validatePom = (folderInfo, pomInfo) => {
           }
         });
       }
+
+      // Check properties section too
+      cloudCIOnlyMavenProperties.forEach(ciOnlyProperty => {
+        assert.isTrue(
+          !pomInfo.properties.has(ciOnlyProperty),
+          `POM: ${ciOnlyProperty} property found (should only be plugin placeholder)`
+        );
+      });
     }
   }
 
