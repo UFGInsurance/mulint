@@ -4,10 +4,10 @@ const xml2js = require("xml2js");
 const error = require("./error");
 const assert = require("./assert");
 
-const expectedListenerConfig = "standardHTTPS";
+const expectedOnPremListenerConfig = "standardHTTPS";
 const expectedListenerPathRegEx = /^\/(?:console|api)\/.+\/v1\/\*$/;
 
-const validateApiFiles = folderInfo => {
+const validateApiFiles = (folderInfo, pomInfo) => {
   folderInfo.apiFiles.forEach(apiFile => {
     let apiFileName = path.basename(apiFile);
     let contents = fs.readFileSync(apiFile);
@@ -24,11 +24,13 @@ const validateApiFiles = folderInfo => {
         if (listener) {
           let listenerAttributes = listener[0]["$"];
 
-          assert.equals(
-            expectedListenerConfig,
-            listenerAttributes["config-ref"],
-            `${apiFileName} http:listener config`
-          );
+          if (pomInfo.isOnPrem) {
+            assert.equals(
+              expectedOnPremListenerConfig,
+              listenerAttributes["config-ref"],
+              `${apiFileName} http:listener config`
+            );
+          }
 
           assert.matches(
             expectedListenerPathRegEx,

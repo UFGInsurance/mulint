@@ -14,7 +14,7 @@ const validateDataWeaveFiles = require("./validateDataWeaveFiles");
 const assert = require("./assert");
 
 program
-  .version("0.0.1")
+  .version("1.0.0")
   .description("Mule project linter")
   .arguments("<apiBasePath>")
   .on("--help", () => {
@@ -31,7 +31,7 @@ program
 
     let folderInfo = folderParser(apiBasePath);
     let pomInfo = pomParser(folderInfo.pomFile);
-    validateApiFiles(folderInfo);
+    validateApiFiles(folderInfo, pomInfo);
     validatePom(folderInfo, pomInfo);
     validateGlobal(folderInfo);
     validateImplementation(folderInfo);
