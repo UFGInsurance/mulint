@@ -5,7 +5,7 @@ const error = require("./error");
 const assert = require("./assert");
 
 const expectedOnPremListenerConfig = "standardHTTPS";
-const expectedListenerPathRegEx = /^\/(?:console|api)\/.+\/v1\/\*$/;
+const expectedListenerPathRegEx = /^\/(?:console|api)\/.+\/v1\/(?:.+\/)?\*$/;
 
 const validateApiFiles = (folderInfo, pomInfo) => {
   folderInfo.apiFiles.forEach(apiFile => {
