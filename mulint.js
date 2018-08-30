@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 const program = require("commander");
+const chalk = require("chalk");
 const folderParser = require("./folderParser");
 const pomParser = require("./pomParser");
 const validateApiFiles = require("./validateApiFiles");
@@ -39,6 +40,18 @@ program
     validateProperties(folderInfo, pomInfo);
     validateLog4j(folderInfo);
     validateDataWeaveFiles(folderInfo);
-    assert.failures.map(failure => console.log(failure));
+
+    printProblemsSummary(assert.failures);
   })
   .parse(process.argv);
+
+function printProblemsSummary(failures) {
+  failures.map(failure => console.log(`${chalk.red("error")}  ${failure}`));
+
+  if (failures.length > 0) {
+    console.log();
+    console.log(chalk.redBright(`${failures.length} problems found`));
+  } else {
+    console.log(`${chalk.green("No problems found!")}`);
+  }
+}
