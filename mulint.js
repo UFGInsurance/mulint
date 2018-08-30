@@ -2,6 +2,9 @@
 
 const program = require("commander");
 const chalk = require("chalk");
+const context = require("./context");
+const reporter = require("./reporter");
+const gitignore = require("./validation/gitignoreValidation");
 const folderParser = require("./folderParser");
 const pomParser = require("./pomParser");
 const validateApiFiles = require("./validateApiFiles");
@@ -12,7 +15,6 @@ const validateGitignore = require("./validateGitignore");
 const validateProperties = require("./validateProperties");
 const validateLog4j = require("./validateLog4j");
 const validateDataWeaveFiles = require("./validateDataWeaveFiles");
-const assert = require("./assert");
 
 program
   .version("1.1.1")
@@ -32,6 +34,7 @@ program
 
     let folderInfo = folderParser(apiBasePath);
     let pomInfo = pomParser(folderInfo.pomFile);
+
     validateApiFiles(folderInfo, pomInfo);
     validatePom(folderInfo, pomInfo);
     validateGlobal(folderInfo);
@@ -41,17 +44,8 @@ program
     validateLog4j(folderInfo);
     validateDataWeaveFiles(folderInfo);
 
-    printProblemsSummary(assert.failures);
+    const muleContext = context.create(folderInfo, pomInfo);
+    gitignore.validate(muleContext, reporter);
+    reporter.printSummary();
   })
   .parse(process.argv);
-
-function printProblemsSummary(failures) {
-  failures.map(failure => console.log(`${chalk.red("error")}  ${failure}`));
-
-  if (failures.length > 0) {
-    console.log();
-    console.log(chalk.redBright(`${failures.length} problems found`));
-  } else {
-    console.log(`${chalk.green("No problems found!")}`);
-  }
-}
