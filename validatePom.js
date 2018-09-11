@@ -7,7 +7,6 @@ const assert = require("./assert");
 const domainProjectName = "api-gateway";
 const expectedDomainProjectVersion = "1.0.1";
 const expectedGroupId = "com.unitedfiregroup";
-const expectedVersion = "1.0.0";
 const expectedFlowRef = "${project.artifactId}-main"; // may be inlined
 const mavenRepository =
   "https://ufginsurance.jfrog.io/ufginsurance/libs-release-local";
@@ -86,8 +85,6 @@ const validatePom = (folderInfo, pomInfo) => {
   let projectArtifactId = pomInfo.xml.project.artifactId[0];
 
   assert.equals(folderInfo.apiName, projectArtifactId, "POM artifactId");
-
-  assert.equals(expectedVersion, pomInfo.xml.project.version[0], "POM version");
 
   let apiManagerFlowref = pomInfo.properties.get("api.manager.flowref");
   let alternateExpectedFlowRef = expectedFlowRef.replace(
