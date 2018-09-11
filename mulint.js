@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 const program = require("commander");
+const reporter = require("./reporter");
 const folderParser = require("./folderParser");
 const pomParser = require("./pomParser");
 const validateApiFiles = require("./validateApiFiles");
@@ -14,7 +15,7 @@ const validateDataWeaveFiles = require("./validateDataWeaveFiles");
 const assert = require("./assert");
 
 program
-  .version("1.1.1")
+  .version("1.2.0")
   .description("Mule project linter")
   .arguments("<apiBasePath>")
   .on("--help", () => {
@@ -39,6 +40,7 @@ program
     validateProperties(folderInfo, pomInfo);
     validateLog4j(folderInfo);
     validateDataWeaveFiles(folderInfo);
-    assert.failures.map(failure => console.log(failure));
+
+    reporter.printSummary(assert.failures);
   })
   .parse(process.argv);

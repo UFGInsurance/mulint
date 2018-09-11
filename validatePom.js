@@ -76,7 +76,7 @@ const validatePom = (folderInfo, pomInfo) => {
 
   assert.isTrue(
     findDependency("common-dataweave"),
-    "No common-dataweave project dependency"
+    "No 'common-dataweave' project dependency"
   );
 
   assert.isTrue(!pomInfo.properties.has("type"), "POM: <type> not removed");
