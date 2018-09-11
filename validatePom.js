@@ -5,7 +5,7 @@ const {
 const assert = require("./assert");
 
 const domainProjectName = "api-gateway";
-const expectedDomainProjectVersion = "1.0.1";
+const expectedDomainProjectVersion = "1.0.2";
 const expectedGroupId = "com.unitedfiregroup";
 const expectedFlowRef = "${project.artifactId}-main"; // may be inlined
 const mavenRepository =
