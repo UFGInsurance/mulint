@@ -5,7 +5,7 @@ const {
 const assert = require("./assert");
 
 const domainProjectName = "api-gateway";
-const expectedDomainProjectVersion = "1.0.2";
+const expectedDomainProjectVersionRegEx = /^1\.0\.[3-9]$/;
 const expectedGroupId = "com.unitedfiregroup";
 const expectedFlowRef = "${project.artifactId}-main"; // may be inlined
 const mavenRepository =
@@ -30,8 +30,8 @@ const validatePom = (folderInfo, pomInfo) => {
     assert.isTrue(domainProject, "No domain project (deploying on-prem)");
 
     if (domainProject) {
-      assert.equals(
-        expectedDomainProjectVersion,
+      assert.matches(
+        expectedDomainProjectVersionRegEx,
         domainProject.version[0],
         "Domain project version"
       );
