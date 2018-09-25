@@ -59,6 +59,32 @@ const validateGlobal = folderInfo => {
         );
       });
     }
+
+    let templateQueries = result.mule["db:template-query"];
+
+    if (templateQueries) {
+      templateQueries.forEach(templateQuery => {
+        let query = templateQuery["db:parameterized-query"];
+
+        if (query) {
+          let queryAttributes = query[0]["$"];
+          let isFileQuery = queryAttributes && queryAttributes.file;
+
+          assert.isTrue(
+            isFileQuery,
+            "Global: Database query contains inline SQL"
+          );
+
+          if (isFileQuery) {
+            assert.matches(
+              /^sql\//,
+              queryAttributes.file,
+              "Global: Database query file"
+            );
+          }
+        }
+      });
+    }
   });
 };
 
