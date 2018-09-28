@@ -10,6 +10,11 @@ const validateGlobal = folderInfo => {
   let contents = fs.readFileSync(folderInfo.globalFile);
   let parser = new xml2js.Parser();
 
+  assert.isTrue(
+    !contents.includes("<db:dynamic-query>"),
+    "Global: Dynamic query is not permitted - vulnerable to SQL injection"
+  );
+
   parser.parseString(contents, (err, result) => {
     if (err) {
       error.fatal(err);
