@@ -77,7 +77,7 @@ const validateGlobal = folderInfo => {
 
           assert.isTrue(
             isFileQuery,
-            "Global: Database query contains inline SQL"
+            "Global: Inline SQL should be moved to file"
           );
 
           if (isFileQuery) {
