@@ -10,6 +10,11 @@ const validateGlobal = folderInfo => {
   let contents = fs.readFileSync(folderInfo.globalFile);
   let parser = new xml2js.Parser();
 
+  assert.isTrue(
+    !contents.includes("<db:dynamic-query>"),
+    "Global: Dynamic query is not permitted - vulnerable to SQL injection"
+  );
+
   parser.parseString(contents, (err, result) => {
     if (err) {
       error.fatal(err);
@@ -57,6 +62,32 @@ const validateGlobal = folderInfo => {
           requestConfigAttributes.port,
           `Global ${requestConfigAttributes.name} port`
         );
+      });
+    }
+
+    let templateQueries = result.mule["db:template-query"];
+
+    if (templateQueries) {
+      templateQueries.forEach(templateQuery => {
+        let query = templateQuery["db:parameterized-query"];
+
+        if (query) {
+          let queryAttributes = query[0]["$"];
+          let isFileQuery = queryAttributes && queryAttributes.file;
+
+          assert.isTrue(
+            isFileQuery,
+            "Global: Inline SQL should be moved to file"
+          );
+
+          if (isFileQuery) {
+            assert.matches(
+              /^sql\//,
+              queryAttributes.file,
+              "Global: Database query file"
+            );
+          }
+        }
       });
     }
   });
