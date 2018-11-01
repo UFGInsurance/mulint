@@ -6,7 +6,10 @@ const cloudCIOnlyMavenProperties = [
   "anypoint.platform.client_secret"
 ];
 
+const encoding = "utf8";
+
 module.exports = {
   propertyPlaceholderRegEx,
-  cloudCIOnlyMavenProperties
+  cloudCIOnlyMavenProperties,
+  encoding
 };
