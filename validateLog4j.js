@@ -1,5 +1,4 @@
-const fs = require("fs");
-const xml2js = require("xml2js");
+const xmlParser = require("./xmlParser");
 const error = require("./error");
 const assert = require("./assert");
 
@@ -48,45 +47,38 @@ const validateTemplateIsCurrent = (xml, databaseRoute) => {
 };
 
 const validateLog4j = folderInfo => {
-  let contents = fs.readFileSync(folderInfo.log4jFile);
-  let parser = new xml2js.Parser();
+  let { xml } = xmlParser(folderInfo.log4jFile);
 
-  parser.parseString(contents, (err, result) => {
-    if (err) {
-      error.fatal(err);
-    }
+  let rollingFileAttributes =
+    xml.Configuration.Appenders[0].RollingFile[0]["$"];
 
-    let rollingFileAttributes =
-      result.Configuration.Appenders[0].RollingFile[0]["$"];
+  assert.matches(
+    new RegExp(`${folderInfo.apiName}\\.log$`),
+    rollingFileAttributes.fileName,
+    "Log4j RollingFile fileName"
+  );
 
-    assert.matches(
-      new RegExp(`${folderInfo.apiName}\\.log$`),
-      rollingFileAttributes.fileName,
-      "Log4j RollingFile fileName"
-    );
+  assert.matches(
+    new RegExp(`${folderInfo.apiName}-%i\\.log$`),
+    rollingFileAttributes.filePattern,
+    "Log4j RollingFile filePattern"
+  );
 
-    assert.matches(
-      new RegExp(`${folderInfo.apiName}-%i\\.log$`),
-      rollingFileAttributes.filePattern,
-      "Log4j RollingFile filePattern"
-    );
+  let databaseRoute = xml.Configuration.Appenders[0].Routing[0].Routes[0].Route.find(
+    route => route["$"].key === "DB"
+  );
 
-    let databaseRoute = result.Configuration.Appenders[0].Routing[0].Routes[0].Route.find(
-      route => route["$"].key === "DB"
-    );
+  let apiNameColumn = databaseRoute.JDBC[0].Column.find(
+    column => column["$"].name === "API_NAME"
+  );
 
-    let apiNameColumn = databaseRoute.JDBC[0].Column.find(
-      column => column["$"].name === "API_NAME"
-    );
+  assert.equals(
+    `'${folderInfo.apiName}'`,
+    apiNameColumn["$"].literal,
+    "Log4 JDBC API_NAME literal"
+  );
 
-    assert.equals(
-      `'${folderInfo.apiName}'`,
-      apiNameColumn["$"].literal,
-      "Log4 JDBC API_NAME literal"
-    );
-
-    validateTemplateIsCurrent(result, databaseRoute);
-  });
+  validateTemplateIsCurrent(xml, databaseRoute);
 };
 
 module.exports = validateLog4j;
