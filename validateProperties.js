@@ -1,6 +1,7 @@
 const {
   propertyPlaceholderRegEx,
-  cloudCIOnlyMavenProperties
+  cloudCIOnlyMavenProperties,
+  encoding
 } = require("./constants");
 const fs = require("fs");
 const path = require("path");
@@ -13,8 +14,7 @@ const sensitiveValueRegEx = /password=(?!replace|\${)/;
 // Loads a Java .properties file into a Map.
 const loadProperties = fileName =>
   fs
-    .readFileSync(fileName)
-    .toString()
+    .readFileSync(fileName, encoding)
     .split(os.EOL)
     .reduce((acc, cur) => {
       // Any space between the key and value is removed.
