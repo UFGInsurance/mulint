@@ -15,7 +15,7 @@ const validateDataWeaveFiles = require("./validateDataWeaveFiles");
 const assert = require("./assert");
 
 program
-  .version("1.3.0")
+  .version("1.3.1")
   .description("Mule project linter")
   .arguments("<apiBasePath>")
   .on("--help", () => {
