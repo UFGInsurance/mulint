@@ -1,7 +1,5 @@
-const fs = require("fs");
 const path = require("path");
-const xml2js = require("xml2js");
-const error = require("./error");
+const xmlParser = require("./xmlParser");
 const assert = require("./assert");
 
 // XML elements immediately below the root other than
@@ -19,8 +17,7 @@ const permittedTopLevelElements = new Set([
 const validateImplementation = folderInfo => {
   folderInfo.implementationFiles.forEach(implementationFile => {
     let implementationFileName = path.basename(implementationFile);
-    let contents = fs.readFileSync(implementationFile);
-    let parser = new xml2js.Parser();
+    let { contents, xml } = xmlParser(implementationFile);
 
     assert.isTrue(
       !contents.includes("<db:dynamic-query>"),
@@ -32,18 +29,12 @@ const validateImplementation = folderInfo => {
       `${implementationFileName}: Inline SQL should be moved to file/template`
     );
 
-    parser.parseString(contents, (err, result) => {
-      if (err) {
-        error.fatal(err);
-      }
-
-      for (let topLevelElement in result.mule) {
-        assert.isTrue(
-          permittedTopLevelElements.has(topLevelElement),
-          `${implementationFileName}: ${topLevelElement} is not permitted`
-        );
-      }
-    });
+    for (let topLevelElement in xml.mule) {
+      assert.isTrue(
+        permittedTopLevelElements.has(topLevelElement),
+        `${implementationFileName}: ${topLevelElement} is not permitted`
+      );
+    }
   });
 };
 
