@@ -44,7 +44,7 @@ const folderParser = apiBasePath => {
     "api.Development.properties"
   );
   const log4jFile = path.join(resourcesFolder, "log4j2.xml");
-  const dataWeaveFiles = glob.sync(path.join(resourcesFolder, "dwl", "*.dwl"));
+  const dataWeaveFiles = glob.sync(path.join(resourcesFolder, "+(dwl|dw)", "*.dwl"));
 
   if (!fs.existsSync(projectFolder)) {
     error.fatal(`Project folder "${projectFolder}" not found`);
