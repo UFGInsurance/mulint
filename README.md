@@ -46,3 +46,13 @@ Include any information (API, branch, file, message, etc.) needed to replicate t
 
 Also please open an issue if the tool behaves incorrectly under macOS, Linux,
 or Windows. Include the platform, version, flavor, etc. in addition to the above.
+
+## License
+
+[MIT](LICENSE.md)
+
+## Disclaimers
+
+MuleSoft:registered:, Anypoint:registered:, CloudHub:tm:, DataWeave:tm:, and RAML:registered: are trademarks or registered trademarks of MuleSoft. Use of them does not imply any affiliation with or endorsement by MuleSoft.
+
+Node.js is a trademark of Joyent, Inc. and is used with its permission. We are not endorsed by or affiliated with Joyent.
