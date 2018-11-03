@@ -2,7 +2,7 @@
 
 Mule project linter.
 
-Detects common issues in Mule applications based on UFG standards.
+Detects common issues in Mule applications based on [UFG](https://www.ufginsurance.com/) standards.
 
 Cross-platform; written in Node.js (JavaScript).
 
