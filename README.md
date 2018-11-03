@@ -4,7 +4,11 @@ Mule project linter.
 
 Detects common issues in Mule applications based on [UFG](https://www.ufginsurance.com/) standards.
 
+**Note:** Currently mulint is *very* specific to UFG. We'd like it to be more modular, flexible, and configurable. ([ESLint](https://eslint.org/) is a good example of that.) If you'd like to help, please [contribute](#contribute).
+
 Cross-platform; written in Node.js (JavaScript).
+
+Pronounced *MEW-lint*. :smile_cat:
 
 ## Setup
 
