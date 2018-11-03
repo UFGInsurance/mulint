@@ -2,9 +2,13 @@
 
 Mule project linter.
 
-Detects common issues in Mule applications based on UFG standards.
+Detects common issues in Mule applications based on [UFG](https://www.ufginsurance.com/) standards.
+
+**Note:** Currently mulint is *very* specific to UFG. We'd like it to be more modular, flexible, configurable, and testable. ([ESLint](https://eslint.org/) is a good example of that.) If you'd like to help, please [contribute](#contribute).
 
 Cross-platform; written in Node.js (JavaScript).
+
+Pronounced *MEW-lint*. :smile_cat:
 
 ## Setup
 
@@ -46,3 +50,17 @@ Include any information (API, branch, file, message, etc.) needed to replicate t
 
 Also please open an issue if the tool behaves incorrectly under macOS, Linux,
 or Windows. Include the platform, version, flavor, etc. in addition to the above.
+
+## Contribute
+
+We welcome contributions. Please see [Creating a pull request from a fork](https://help.github.com/articles/creating-a-pull-request-from-a-fork/). We don't have formal guidelines yet, but [these](https://contribute.jquery.org/commits-and-pull-requests/) are a good start.
+
+## License
+
+[MIT](LICENSE.md)
+
+## Disclaimers
+
+MuleSoft:registered:, Anypoint:registered:, CloudHub:tm:, DataWeave:tm:, and RAML:registered: are trademarks or registered trademarks of MuleSoft. Use of them does not imply any affiliation with or endorsement by MuleSoft.
+
+Node.js is a trademark of Joyent, Inc. and is used with its permission. We are not endorsed by or affiliated with Joyent.
