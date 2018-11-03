@@ -47,6 +47,10 @@ Include any information (API, branch, file, message, etc.) needed to replicate t
 Also please open an issue if the tool behaves incorrectly under macOS, Linux,
 or Windows. Include the platform, version, flavor, etc. in addition to the above.
 
+## Contribute
+
+We welcome contributions. Please see [Creating a pull request from a fork](https://help.github.com/articles/creating-a-pull-request-from-a-fork/). We don't have formal guidelines yet, but [these](https://contribute.jquery.org/commits-and-pull-requests/) are a good start.
+
 ## License
 
 [MIT](LICENSE.md)
