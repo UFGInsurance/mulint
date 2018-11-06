@@ -2,6 +2,7 @@ const fs = require("fs");
 const path = require("path");
 const os = require("os");
 const assert = require("./assert");
+const { encoding } = require("./constants");
 
 // Possible false positive - might be line comment
 // as opposed to commented-out code.
@@ -13,8 +14,7 @@ const validateDataWeaveFiles = folderInfo => {
     let context = path.basename(dataWeaveFile);
 
     let lines = fs
-      .readFileSync(dataWeaveFile)
-      .toString()
+      .readFileSync(dataWeaveFile, encoding)
       .split(os.EOL);
 
     let isCommentedOutLine = false;
