@@ -11,7 +11,6 @@ const validateImplementation = require("./validateImplementation");
 const validateGitignore = require("./validateGitignore");
 const validateProperties = require("./validateProperties");
 const validateLog4j = require("./validateLog4j");
-const validateDataWeaveFiles = require("./validateDataWeaveFiles");
 const assert = require("./assert");
 
 program
@@ -39,7 +38,6 @@ program
     validateGitignore(folderInfo);
     validateProperties(folderInfo, pomInfo);
     validateLog4j(folderInfo);
-    validateDataWeaveFiles(folderInfo);
 
     reporter.printSummary(assert.failures);
   })
