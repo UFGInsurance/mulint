@@ -11,11 +11,10 @@ const validateImplementation = require("./validateImplementation");
 const validateGitignore = require("./validateGitignore");
 const validateProperties = require("./validateProperties");
 const validateLog4j = require("./validateLog4j");
-const validateDataWeaveFiles = require("./validateDataWeaveFiles");
 const assert = require("./assert");
 
 program
-  .version("1.4.0")
+  .version("1.5.0")
   .description("Mule project linter")
   .arguments("<apiBasePath>")
   .on("--help", () => {
@@ -39,7 +38,6 @@ program
     validateGitignore(folderInfo);
     validateProperties(folderInfo, pomInfo);
     validateLog4j(folderInfo);
-    validateDataWeaveFiles(folderInfo);
 
     reporter.printSummary(assert.failures);
   })
