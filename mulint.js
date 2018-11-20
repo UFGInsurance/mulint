@@ -14,7 +14,7 @@ const validateLog4j = require("./validateLog4j");
 const assert = require("./assert");
 
 program
-  .version("1.5.0")
+  .version("1.6.0")
   .description("Mule project linter")
   .arguments("<apiBasePath>")
   .on("--help", () => {
