@@ -105,7 +105,6 @@ const folderParser = apiBasePath => {
   }
 
   return {
-    apiBasePath,
     apiName,
     projectFolder,
     pomFile,
