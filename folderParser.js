@@ -20,8 +20,9 @@ const folderParser = apiBasePath => {
     error.fatal(`apiBasePath "${apiBasePath}" not found`);
   }
 
-  const apiName = path.basename(apiBasePath);
-  const projectFolder = path.join(apiBasePath, "impl", apiName);
+  const apiAbsoluteBasePath = path.resolve(apiBasePath);
+  const apiName = path.basename(apiAbsoluteBasePath);
+  const projectFolder = path.join(apiAbsoluteBasePath, "impl", apiName);
   const pomFile = path.join(projectFolder, "pom.xml");
   const gitignoreFile = path.join(projectFolder, ".gitignore");
   const appFolder = path.join(projectFolder, "src", "main", "app");
@@ -104,7 +105,6 @@ const folderParser = apiBasePath => {
   }
 
   return {
-    apiBasePath,
     apiName,
     projectFolder,
     pomFile,
