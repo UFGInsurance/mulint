@@ -24,7 +24,7 @@ Pronounced *MEW-lint*. :smile_cat:
 2.  CD to the project folder
 3.  `yarn`
 4.  `yarn link`
-    - On Linux or macOS, `chmod +x mulint.js` should replace this step.
+5.  On Linux or macOS, `chmod +x mulint.js`
 
 ## Use
 
