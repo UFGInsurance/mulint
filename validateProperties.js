@@ -102,7 +102,7 @@ const validateProperties = (folderInfo, pomInfo) => {
 
     if (
       (sensitiveKeyRegEx.test(key) &&
-        !value.includes("replace") &&
+        !value.toUpperCase().includes("REPLACE") &&
         !propertyPlaceholderRegEx.test(value)) ||
       sensitiveValueRegEx.test(value)
     ) {
