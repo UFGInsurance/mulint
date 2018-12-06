@@ -10,8 +10,10 @@ const assert = require("./assert");
 
 const sensitiveKeyRegEx = /password|pwd/i;
 
+// Primarily for Microsoft SQL Server connection strings
 // Negative lookahead - "password=" not followed by "replace" or "${"
-const sensitiveValueRegEx = /password=(?!replace|\${)/;
+// (Case-insensitive, ignoring whitespace)
+const sensitiveValueRegEx = /password\s*=(?!\s*(?:replace|\${))/i;
 
 // Loads a Java .properties file into a Map.
 const loadProperties = fileName =>
