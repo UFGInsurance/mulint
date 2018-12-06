@@ -15,6 +15,8 @@ const sensitiveKeyRegEx = /password|pwd/i;
 // (Case-insensitive, ignoring whitespace)
 const sensitiveValueRegEx = /password\s*=(?!\s*(?:replace|\${))/i;
 
+const securedPropertyRegEx = /^!\[.+\]$/;
+
 // Loads a Java .properties file into a Map.
 const loadProperties = fileName =>
   fs
@@ -103,6 +105,7 @@ const validateProperties = (folderInfo, pomInfo) => {
     if (
       (sensitiveKeyRegEx.test(key) &&
         !value.toUpperCase().includes("REPLACE") &&
+        !securedPropertyRegEx.test(value) &&
         !propertyPlaceholderRegEx.test(value)) ||
       sensitiveValueRegEx.test(value)
     ) {
