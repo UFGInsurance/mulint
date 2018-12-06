@@ -8,6 +8,8 @@ const path = require("path");
 const os = require("os");
 const assert = require("./assert");
 
+const sensitiveKeyRegEx = /password|pwd/i;
+
 // Negative lookahead - "password=" not followed by "replace" or "${"
 const sensitiveValueRegEx = /password=(?!replace|\${)/;
 
@@ -97,7 +99,7 @@ const validateProperties = (folderInfo, pomInfo) => {
     );
 
     if (
-      (key.includes("password") &&
+      (sensitiveKeyRegEx.test(key) &&
         !value.includes("replace") &&
         !propertyPlaceholderRegEx.test(value)) ||
       sensitiveValueRegEx.test(value)
