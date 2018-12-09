@@ -3,6 +3,7 @@ const {
   cloudCIOnlyMavenProperties
 } = require("./constants");
 const assert = require("./assert");
+const sensitive = require("./sensitive");
 
 const domainProjectName = "api-gateway";
 const expectedDomainProjectVersionRegEx = /^1\.0\.[3-9]$/;
@@ -108,6 +109,12 @@ const validatePom = (folderInfo, pomInfo) => {
       distributionManagement[0].repository[0].url[0] === mavenRepository,
     "POM: Maven repository (Artifactory) not configured"
   );
+
+  pomInfo.properties.forEach((value, key) => {
+    if (sensitive.isSensitive(key, value)) {
+      assert.fail(`POM: ${key} may contain sensitive information`);
+    }
+  });
 };
 
 module.exports = validatePom;
