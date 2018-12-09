@@ -11,6 +11,7 @@ const securedPropertyRegEx = /^!\[.+\]$/;
 
 const isSensitive = (key, value) =>
   (sensitiveKeyRegEx.test(key) &&
+    value &&
     !value.toUpperCase().includes("REPLACE") &&
     !securedPropertyRegEx.test(value) &&
     !propertyPlaceholderRegEx.test(value)) ||
