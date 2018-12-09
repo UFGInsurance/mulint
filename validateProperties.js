@@ -1,21 +1,9 @@
-const {
-  propertyPlaceholderRegEx,
-  cloudCIOnlyMavenProperties,
-  encoding
-} = require("./constants");
+const { cloudCIOnlyMavenProperties, encoding } = require("./constants");
 const fs = require("fs");
 const path = require("path");
 const os = require("os");
 const assert = require("./assert");
-
-const sensitiveKeyRegEx = /password|pwd/i;
-
-// Primarily for Microsoft SQL Server connection strings
-// Negative lookahead - "password=" not followed by "replace" or "${"
-// (Case-insensitive, ignoring whitespace)
-const sensitiveValueRegEx = /password\s*=(?!\s*(?:replace|\${))/i;
-
-const securedPropertyRegEx = /^!\[.+\]$/;
+const sensitive = require("./sensitive");
 
 // Loads a Java .properties file into a Map.
 const loadProperties = fileName =>
@@ -102,13 +90,7 @@ const validateProperties = (folderInfo, pomInfo) => {
       `${serverContext}: ${key} from ${localContext} not found`
     );
 
-    if (
-      (sensitiveKeyRegEx.test(key) &&
-        !value.toUpperCase().includes("REPLACE") &&
-        !securedPropertyRegEx.test(value) &&
-        !propertyPlaceholderRegEx.test(value)) ||
-      sensitiveValueRegEx.test(value)
-    ) {
+    if (sensitive.isSensitive(key, value)) {
       assert.fail(`${localContext}: ${key} may contain sensitive information`);
     }
   });
