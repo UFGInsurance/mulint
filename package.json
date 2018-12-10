@@ -13,7 +13,12 @@
     "recursive-search": "^1.0.1",
     "xml2js": "^0.4.19"
   },
+  "scripts": {
+    "test": "jest"
+  },
   "devDependencies": {
-    "eslint": "^5.15.0"
+    "eslint": "^5.15.0",
+    "eslint-plugin-jest": "^22.5.1",
+    "jest": "^24.8.0"
   }
 }
