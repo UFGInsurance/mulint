@@ -61,6 +61,12 @@ function internalValidateProperties(folderInfo, pomInfo) {
   );
 }
 
+function internalValidateLog4j(folderInfo) {
+  let { xml } = xmlParser(folderInfo.log4jFile);
+
+  validateLog4j(xml, folderInfo);
+}
+
 module.exports = {
   execute(apiBasePath) {
     let folderInfo = folderParser(apiBasePath);
@@ -71,7 +77,7 @@ module.exports = {
     validateImplementationFiles(folderInfo);
     validateGitignore(fs.readFileSync(folderInfo.gitignoreFile, encoding));
     internalValidateProperties(folderInfo, pomInfo);
-    validateLog4j(folderInfo);
+    internalValidateLog4j(folderInfo);
 
     reporter.printSummary(assert.failures);
   }

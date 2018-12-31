@@ -1,10 +1,7 @@
-const xmlParser = require("./xmlParser");
 const error = require("./error");
 const assert = require("./assert");
 
-const validateLog4j = folderInfo => {
-  let { xml } = xmlParser(folderInfo.log4jFile);
-
+const validateLog4j = (xml, folderInfo) => {
   let appenders = xml.Configuration.Appenders;
 
   if (!appenders) {
