@@ -12,7 +12,7 @@ const pomParser = require("./pomParser");
 const validateApiFile = require("./validateApiFile");
 const validatePom = require("./validatePom");
 const validateGlobal = require("./validateGlobal");
-const validateImplementation = require("./validateImplementation");
+const validateImplementationFile = require("./validateImplementationFile");
 const validateGitignore = require("./validateGitignore");
 const validateProperties = require("./validateProperties");
 const validateLog4j = require("./validateLog4j");
@@ -27,6 +27,15 @@ function validateApiFiles(folderInfo, pomInfo) {
   });
 }
 
+function validateImplementationFiles(folderInfo) {
+  folderInfo.implementationFiles.forEach(implementationFile => {
+    let implementationFileName = path.basename(implementationFile);
+    let { contents, xml } = xmlParser(implementationFile);
+
+    validateImplementationFile(implementationFileName, contents, xml);
+  });
+}
+
 module.exports = {
   execute(apiBasePath) {
     let folderInfo = folderParser(apiBasePath);
@@ -35,7 +44,7 @@ module.exports = {
     validatePom(folderInfo, pomInfo);
     let { contents, xml } = xmlParser(folderInfo.globalFile);
     validateGlobal(contents, xml);
-    validateImplementation(folderInfo);
+    validateImplementationFiles(folderInfo);
     validateGitignore(folderInfo);
     validateProperties(folderInfo, pomInfo);
     validateLog4j(folderInfo);
