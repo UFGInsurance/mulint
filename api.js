@@ -33,7 +33,8 @@ module.exports = {
     let pomInfo = pomParser(folderInfo.pomFile);
     validateApiFiles(folderInfo, pomInfo);
     validatePom(folderInfo, pomInfo);
-    validateGlobal(folderInfo);
+    let { contents, xml } = xmlParser(folderInfo.globalFile);
+    validateGlobal(contents, xml);
     validateImplementation(folderInfo);
     validateGitignore(folderInfo);
     validateProperties(folderInfo, pomInfo);
