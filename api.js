@@ -19,6 +19,7 @@ const validateProperties = require("./validateProperties");
 const validateLog4j = require("./validateLog4j");
 const { encoding } = require("./constants");
 const assert = require("./assert");
+const { loadProperties } = require("./loadProperties");
 
 function validateApiFiles(folderInfo, pomInfo) {
   folderInfo.apiFiles.forEach(apiFile => {
@@ -43,6 +44,23 @@ function internalValidateGlobal(folderInfo) {
   validateGlobal(contents, xml);
 }
 
+function internalValidateProperties(folderInfo, pomInfo) {
+  let localProperties = loadProperties(folderInfo.localPropertiesFile);
+  let serverProperties = loadProperties(folderInfo.serverPropertiesFile);
+
+  let muleAppProperties = fs.existsSync(folderInfo.muleAppPropertiesFile)
+    ? loadProperties(folderInfo.muleAppPropertiesFile)
+    : new Map();
+
+  validateProperties(
+    localProperties,
+    serverProperties,
+    muleAppProperties,
+    folderInfo,
+    pomInfo
+  );
+}
+
 module.exports = {
   execute(apiBasePath) {
     let folderInfo = folderParser(apiBasePath);
@@ -52,7 +70,7 @@ module.exports = {
     internalValidateGlobal(folderInfo);
     validateImplementationFiles(folderInfo);
     validateGitignore(fs.readFileSync(folderInfo.gitignoreFile, encoding));
-    validateProperties(folderInfo, pomInfo);
+    internalValidateProperties(folderInfo, pomInfo);
     validateLog4j(folderInfo);
 
     reporter.printSummary(assert.failures);

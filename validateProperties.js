@@ -1,22 +1,22 @@
 const { cloudCIOnlyMavenProperties } = require("./constants");
-const fs = require("fs");
 const path = require("path");
 const assert = require("./assert");
 const sensitive = require("./sensitive");
-const { loadProperties } = require("./loadProperties");
 
-const validateProperties = (folderInfo, pomInfo) => {
-  let localProperties = loadProperties(folderInfo.localPropertiesFile);
-  let serverProperties = loadProperties(folderInfo.serverPropertiesFile);
+const validateProperties = (
+  localProperties,
+  serverProperties,
+  muleAppProperties,
+  folderInfo,
+  pomInfo
+) => {
   let localContext = path.basename(folderInfo.localPropertiesFile);
   let serverContext = path.basename(folderInfo.serverPropertiesFile);
 
-  if (fs.existsSync(folderInfo.muleAppPropertiesFile)) {
-    assert.isTrue(
-      loadProperties(folderInfo.muleAppPropertiesFile).size === 0,
-      `${path.basename(folderInfo.muleAppPropertiesFile)} contains properties`
-    );
-  }
+  assert.isTrue(
+    muleAppProperties.size === 0,
+    `${path.basename(folderInfo.muleAppPropertiesFile)} contains properties`
+  );
 
   assert.isTrue(
     Array.from(localProperties.values()).every(x => !x.endsWith(" ")),
