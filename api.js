@@ -38,14 +38,18 @@ function validateImplementationFiles(folderInfo) {
   });
 }
 
+function internalValidateGlobal(folderInfo) {
+  let { contents, xml } = xmlParser(folderInfo.globalFile);
+  validateGlobal(contents, xml);
+}
+
 module.exports = {
   execute(apiBasePath) {
     let folderInfo = folderParser(apiBasePath);
     let pomInfo = pomParser(folderInfo.pomFile);
     validateApiFiles(folderInfo, pomInfo);
     validatePom(folderInfo, pomInfo);
-    let { contents, xml } = xmlParser(folderInfo.globalFile);
-    validateGlobal(contents, xml);
+    internalValidateGlobal(folderInfo);
     validateImplementationFiles(folderInfo);
     validateGitignore(fs.readFileSync(folderInfo.gitignoreFile, encoding));
     validateProperties(folderInfo, pomInfo);
