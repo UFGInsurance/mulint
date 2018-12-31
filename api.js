@@ -5,6 +5,7 @@
  */
 
 const path = require("path");
+const fs = require("fs");
 const xmlParser = require("./xmlParser");
 const reporter = require("./reporter");
 const folderParser = require("./folderParser");
@@ -16,6 +17,7 @@ const validateImplementationFile = require("./validateImplementationFile");
 const validateGitignore = require("./validateGitignore");
 const validateProperties = require("./validateProperties");
 const validateLog4j = require("./validateLog4j");
+const { encoding } = require("./constants");
 const assert = require("./assert");
 
 function validateApiFiles(folderInfo, pomInfo) {
@@ -45,7 +47,7 @@ module.exports = {
     let { contents, xml } = xmlParser(folderInfo.globalFile);
     validateGlobal(contents, xml);
     validateImplementationFiles(folderInfo);
-    validateGitignore(folderInfo);
+    validateGitignore(fs.readFileSync(folderInfo.gitignoreFile, encoding));
     validateProperties(folderInfo, pomInfo);
     validateLog4j(folderInfo);
 
