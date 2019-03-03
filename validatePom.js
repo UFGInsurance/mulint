@@ -13,19 +13,7 @@ const mavenRepository =
   "https://ufginsurance.jfrog.io/ufginsurance/libs-release-local";
 
 const validatePom = (folderInfo, pomInfo) => {
-  let dependencies = pomInfo.xml.project.dependencies[0].dependency;
-  let plugins = pomInfo.xml.project.build[0].plugins[0].plugin;
-
-  // Curryable function
-  const findElementByArtifactId = elements => artifactId =>
-    elements.find(
-      element => element.artifactId && element.artifactId[0] === artifactId
-    );
-
-  let findDependency = findElementByArtifactId(dependencies);
-  let findPlugin = findElementByArtifactId(plugins);
-
-  let domainProject = findDependency(domainProjectName);
+  let domainProject = pomInfo.findDependency(domainProjectName);
 
   if (pomInfo.isOnPrem) {
     assert.isTrue(domainProject, "No domain project (deploying on-prem)");
@@ -45,10 +33,8 @@ const validatePom = (folderInfo, pomInfo) => {
       "Domain project used (deploying to CloudHub)"
     );
 
-    let muleMavenPlugin = findPlugin("mule-maven-plugin");
-
-    if (muleMavenPlugin && muleMavenPlugin.configuration) {
-      let mavenProperties = muleMavenPlugin.configuration[0].properties;
+    if (pomInfo.muleMavenPlugin && pomInfo.muleMavenPlugin.configuration) {
+      let mavenProperties = pomInfo.muleMavenPlugin.configuration[0].properties;
 
       if (mavenProperties) {
         cloudCIOnlyMavenProperties.forEach(ciOnlyProperty => {
@@ -75,7 +61,7 @@ const validatePom = (folderInfo, pomInfo) => {
   }
 
   assert.isTrue(
-    findDependency("common-dataweave"),
+    pomInfo.findDependency("common-dataweave"),
     "No 'common-dataweave' project dependency"
   );
 

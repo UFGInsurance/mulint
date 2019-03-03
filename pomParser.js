@@ -9,10 +9,29 @@ const pomParser = pomFile => {
     properties.set(property, xmlProperties[property][0]);
   }
 
-  let isOnPrem = properties.get("deployment.type") === "arm";
+  let dependencies = xml.project.dependencies[0].dependency;
+  let plugins = xml.project.build[0].plugins[0].plugin;
+
+  // Curryable function
+  const findElementByArtifactId = elements => artifactId =>
+    elements.find(
+      element => element.artifactId && element.artifactId[0] === artifactId
+    );
+
+  const findDependency = findElementByArtifactId(dependencies);
+  const findPlugin = findElementByArtifactId(plugins);
+
+  let muleMavenPlugin = findPlugin("mule-maven-plugin");
+
+  // Currently assuming if not using the Mule Maven Plugin then deploying on-prem.
+  let isOnPrem =
+    !muleMavenPlugin || properties.get("deployment.type") === "arm";
 
   return {
+    findDependency,
+    findPlugin,
     properties,
+    muleMavenPlugin,
     isOnPrem,
     xml
   };
