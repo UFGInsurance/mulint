@@ -39,7 +39,7 @@ Output may be redirected using shell redirection operators (such as `>`).
 
 If running `mulint` results in a not found or not recognized error, `yarn link` did not work. This could be due to the OS, shell, path, yarn version, etc. The easiest solution is to use `node mulint` instead. If desired you can create a batch file or shell script.
 
-This tool requires node 8.10 or later. If you get a node version error, upgrade to the latest **LTS** (Long Term Support) version of Node.js at https://nodejs.org/ or (if you installed node with Chocolatey) `choco upgrade nodejs-lts`
+This tool requires a minimum version of node (see [Prerequisites](#prerequisites)). Upgrade to at least the minimum **LTS** (Long Term Support) version of Node.js at https://nodejs.org/ or (if you installed node with Chocolatey) `choco upgrade nodejs-lts`
 
 ## Issues
 
