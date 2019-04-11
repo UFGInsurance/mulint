@@ -14,7 +14,7 @@ Pronounced *MEW-lint*. :smile_cat:
 
 #### Prerequisites
 
-- [Node.js](https://nodejs.org/) 8.10 or later (**LTS**)
+- [Node.js](https://nodejs.org/) 10.15.3 or later (**LTS**)
     - _(nodejs-lts package for Chocolatey users)_
 - [Yarn](https://yarnpkg.com/)
 
