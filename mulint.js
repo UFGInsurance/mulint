@@ -14,7 +14,7 @@ const validateLog4j = require("./validateLog4j");
 const assert = require("./assert");
 
 program
-  .version("2.0.1")
+  .version("2.1.0")
   .description("Mule project linter")
   .arguments("<apiBasePath>")
   .option("-d, --detect-deploy", "Detect deployment type (otherwise assumes on-prem)")
