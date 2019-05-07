@@ -1,6 +1,6 @@
 const xmlParser = require("./xmlParser");
 
-const pomParser = pomFile => {
+const pomParser = (pomFile, detectDeploy) => {
   let { xml } = xmlParser(pomFile);
   let xmlProperties = xml.project.properties[0];
   let properties = new Map();
@@ -23,9 +23,15 @@ const pomParser = pomFile => {
 
   let muleMavenPlugin = findPlugin("mule-maven-plugin");
 
-  // Currently assuming if not using the Mule Maven Plugin then deploying on-prem.
-  let isOnPrem =
-    !muleMavenPlugin || properties.get("deployment.type") === "arm";
+  let isOnPrem;
+  
+  if (detectDeploy) {
+    // Currently assuming if not using the Mule Maven Plugin then deploying on-prem.
+    isOnPrem =
+      !muleMavenPlugin || properties.get("deployment.type") === "arm";
+  } else {
+    isOnPrem = true;
+  }
 
   return {
     findDependency,

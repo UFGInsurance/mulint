@@ -17,6 +17,7 @@ program
   .version("2.0.1")
   .description("Mule project linter")
   .arguments("<apiBasePath>")
+  .option("-d, --detect-deploy", "Detect deployment type (otherwise assumes on-prem)")
   .on("--help", () => {
     const path = "C:\\SourceCode\\mulesoft-apis\\System APIs\\wsflx-system-api";
     console.log("");
@@ -30,7 +31,8 @@ program
     apiBasePath = apiBasePath.replace(/"$/, "");
 
     let folderInfo = folderParser(apiBasePath);
-    let pomInfo = pomParser(folderInfo.pomFile);
+    let pomInfo = pomParser(folderInfo.pomFile, program.detectDeploy);
+    
     validateApiFiles(folderInfo, pomInfo);
     validatePom(folderInfo, pomInfo);
     validateGlobal(folderInfo);
