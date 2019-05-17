@@ -1,17 +1,11 @@
 #!/usr/bin/env node
 
+/**
+ * @fileoverview Main CLI that is run via the mulint command.
+ */
+
 const program = require("commander");
-const reporter = require("./reporter");
-const folderParser = require("./folderParser");
-const pomParser = require("./pomParser");
-const validateApiFiles = require("./validateApiFiles");
-const validatePom = require("./validatePom");
-const validateGlobal = require("./validateGlobal");
-const validateImplementation = require("./validateImplementation");
-const validateGitignore = require("./validateGitignore");
-const validateProperties = require("./validateProperties");
-const validateLog4j = require("./validateLog4j");
-const assert = require("./assert");
+const api = require("./api");
 
 program
   .version("2.0.1")
@@ -29,16 +23,6 @@ program
     // Workaround for https://github.com/PowerShell/PowerShell/issues/7400
     apiBasePath = apiBasePath.replace(/"$/, "");
 
-    let folderInfo = folderParser(apiBasePath);
-    let pomInfo = pomParser(folderInfo.pomFile);
-    validateApiFiles(folderInfo, pomInfo);
-    validatePom(folderInfo, pomInfo);
-    validateGlobal(folderInfo);
-    validateImplementation(folderInfo);
-    validateGitignore(folderInfo);
-    validateProperties(folderInfo, pomInfo);
-    validateLog4j(folderInfo);
-
-    reporter.printSummary(assert.failures);
+    api.execute(apiBasePath);
   })
   .parse(process.argv);

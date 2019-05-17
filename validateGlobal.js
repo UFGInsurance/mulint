@@ -1,12 +1,9 @@
 const { propertyPlaceholderRegEx } = require("./constants");
-const xmlParser = require("./xmlParser");
 const assert = require("./assert");
 
 const expectedTlsContext = "clientTlsContext";
 
-const validateGlobal = folderInfo => {
-  let { contents, xml } = xmlParser(folderInfo.globalFile);
-
+const validateGlobal = (contents, xml) => {
   assert.isTrue(
     !contents.includes("<db:dynamic-query>"),
     "Global: Dynamic query is not permitted - vulnerable to SQL injection"
