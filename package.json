@@ -18,8 +18,8 @@
   },
   "devDependencies": {
     "eslint": "^5.15.0",
-    "eslint-plugin-jest": "^22.1.2",
-    "jest": "^23.6.0"
+    "eslint-plugin-jest": "^22.5.1",
+    "jest": "^24.8.0"
   },
   "jest": {
     "testEnvironment": "node"
