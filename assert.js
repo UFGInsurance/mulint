@@ -20,10 +20,16 @@ const isTrue = (expression, message) => {
 
 const fail = message => failures.push(message);
 
+// For tests - do not want to change reference
+const clearFailures = () => {
+  failures.length = 0;
+};
+
 module.exports = {
   failures,
   equals,
   matches,
   isTrue,
-  fail
+  fail,
+  clearFailures
 };
