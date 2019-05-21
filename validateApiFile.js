@@ -1,4 +1,5 @@
 const assert = require("./assert");
+const { propertyPlaceholderAnywhereRegEx } = require("./constants");
 
 const expectedOnPremListenerConfig = "standardHTTPS";
 const expectedListenerPathRegEx = /^\/(?:console|api)\/.+\/v1\/(?:.+\/)?\*$/;
@@ -18,11 +19,14 @@ const validateApiFile = (apiFileName, xml, pomInfo) => {
         );
       }
 
-      assert.matches(
-        expectedListenerPathRegEx,
-        listenerAttributes["path"],
-        `${apiFileName} http:listener path`
-      );
+      // Skip the check if there's a property placeholder (like ${api.basepath}) present.
+      if (!propertyPlaceholderAnywhereRegEx.test(listenerAttributes["path"])) {
+        assert.matches(
+          expectedListenerPathRegEx,
+          listenerAttributes["path"],
+          `${apiFileName} http:listener path`
+        );
+      }
     }
 
     let exceptionStrategy = flow["exception-strategy"];
