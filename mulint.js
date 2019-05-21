@@ -8,7 +8,7 @@ const program = require("commander");
 const api = require("./api");
 
 program
-  .version("2.0.2")
+  .version("2.1.2")
   .description("Mule project linter")
   .arguments("<apiBasePath>")
   .on("--help", () => {
