@@ -6,7 +6,7 @@
 # Each line is a file pattern followed by one or more owners.
 
 # These owners will be the default owners for everything in the repo.
-*       @TrueWill
+*       @aoathout @UKachegere @vwieditz @cjnickel @markhansonufg @bterryUFG @juanc-mulesoft
 
 # Order is important; the last matching pattern has the most precedence.
 
